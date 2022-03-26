@@ -5,6 +5,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Stack,
 } from "@mui/material";
 
 const dayOfWeeks = [" ", "日", "月", "火", "水", "木", "金", "土"];
@@ -17,32 +18,42 @@ const rowsList = [
   ["朝", USER3, USER1, USER2, USER2, USER2, USER3, USER3],
   ["夜", USER1, USER1, USER3, USER1, USER1, USER1, USER2],
 ];
+const NOTICE = "🐢の餌やり: 1日1回、朝。4月下旬〜。1回5粒、食べるなら10粒。";
 
 function DutyRosterTable() {
   return (
-      <TableContainer>
-        <Table>
-          <TableHead>
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {dayOfWeeks.map((dayOfWeek) => (
+              <TableCell>{dayOfWeek}</TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rowsList.map((rows) => (
             <TableRow>
-              {dayOfWeeks.map((dayOfWeek) => (
-                <TableCell>{dayOfWeek}</TableCell>
+              {rows.map((row) => (
+                <TableCell>{row}</TableCell>
               ))}
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {rowsList.map((rows) => (
-              <TableRow>
-                {rows.map((row) => (
-                  <TableCell>{row}</TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
 
+function NoticeText() {
+  return <div>{NOTICE}</div>;
+}
+
 export default function DutyRoster() {
-  return <DutyRosterTable />;
+  return (
+    <Stack spacing={2}>
+      <DutyRosterTable />
+      <NoticeText />
+    </Stack>
+  );
 }
