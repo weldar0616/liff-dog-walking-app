@@ -11,7 +11,8 @@ export default function Report(props) {
         },
       ])
       .then(() => {
-        props.liff.closeWindow();
+        alert("closeWindow")
+        // props.liff.closeWindow();
       })
       .reject(() => {
         alert("reject send messages");
