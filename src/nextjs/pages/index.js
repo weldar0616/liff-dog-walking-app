@@ -1,7 +1,19 @@
 import Head from "next/head";
 import packageJson from "../package.json";
 
-function Content() {
+function Content(props) {
+  const liff = props.liff;
+  const liffError = props.liffError;
+
+  if (liffError) {
+    return <div>{liffError}</div>;
+  }
+
+  if (!liff.isInClient()) {
+    liff.login();
+    return <div>Login...</div>;
+  }
+
   return (
     <>
       <h1 className="home__title">
@@ -65,7 +77,7 @@ export default function Home(props) {
         <title>散歩当番</title>
       </Head>
       <div className="home">
-        <Content />
+        <Content liff={props.liff} liffError={props.liffError} />
       </div>
     </div>
   );
