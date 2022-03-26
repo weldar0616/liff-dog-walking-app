@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # LIFF Starter
 
 LIFF Starter is a good starter template can help you understand how to integrate LIFF into your own development environment.
@@ -68,3 +69,6 @@ You can also check official site before you trying it.
 
 https://liff-starter.netlify.app
 
+=======
+# liff-dog-walking-app
+>>>>>>> caf66442a3fd22ec3882250790b5e22b2e54b08c

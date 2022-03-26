@@ -1,6 +1,0 @@
-[build]
-  command = "cd src/vanilla && yarn install && yarn build"
-  publish = "src/vanilla/dist"
-
-[template.environment]
-  LIFF_ID = "Your LIFF ID which is aquired from LINE Dev Center"
