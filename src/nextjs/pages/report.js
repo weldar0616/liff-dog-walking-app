@@ -2,6 +2,7 @@ import { Button } from "@mui/material";
 
 export default function Report(props) {
   if (props.liff && props.liff.isLoggedIn()) {
+    alert("sendMessages");
     props.liff
       .sendMessages([
         {
@@ -11,6 +12,9 @@ export default function Report(props) {
       ])
       .then(() => {
         props.liff.closeWindow();
+      })
+      .reject(() => {
+        alert("reject send messages");
       });
   }
 
