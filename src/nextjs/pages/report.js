@@ -1,8 +1,18 @@
-export default function Report() {
+export default function Report(props) {
+  if (props.liff && props.liff.isLoggedIn()) {
+    props.liff.sendMessages([
+        {
+          type: "text",
+          text: "Hello",
+        },
+      ])
+      .then(() => {
+        props.liff.closeWindow();
+      });
+  }
   return (
     <>
-      <h2>報告画面</h2>
-      <div>開発中...</div>
+      <div>Loading...</div>
     </>
   );
 }
