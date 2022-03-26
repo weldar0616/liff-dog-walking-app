@@ -1,6 +1,9 @@
+import { Button } from "@mui/material";
+
 export default function Report(props) {
   if (props.liff && props.liff.isLoggedIn()) {
-    props.liff.sendMessages([
+    props.liff
+      .sendMessages([
         {
           type: "text",
           text: "Hello",
@@ -10,9 +13,19 @@ export default function Report(props) {
         props.liff.closeWindow();
       });
   }
+
+  const onClick = () => {
+    if (props.liff && !props.liff.isLoggedIn()) {
+      props.liff.login();
+    }
+  };
   return (
     <>
-      <div>Loading...</div>
+      <div>
+        <Button variant="outlined" onClick={onClick}>
+          Login
+        </Button>
+      </div>
     </>
   );
 }
