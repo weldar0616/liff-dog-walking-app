@@ -49,7 +49,7 @@ export default function Report(props) {
   //   await liff.init({
   //     liffId: process.env.LIFF_ID_REPORT_APP,
   //   });
-  const profile = { displayName: "xxxxx" }; //await liff.getProfile();
+  const profile = { displayName: "yyy" }; //await liff.getProfile();
 
   console.log(process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN);
   const headers = {
@@ -64,6 +64,7 @@ export default function Report(props) {
       },
       {
         headers,
+        withCredentials: true,
       }
     )
     .then(() => {
