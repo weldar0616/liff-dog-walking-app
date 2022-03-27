@@ -10,13 +10,14 @@ export default function Report(props) {
     await liff.ready;
     const profile = await liff.getProfile();
     setProfile(profile);
+    console.log({ profile });
   }, [profile.userId]);
 
   return (
     <section>
       <h1>Profile</h1>
       <div>
-        {profile.pictureUrl && profile.displayName && (
+        {/* {profile.pictureUrl && profile.displayName && (
           <Image
             src={profile.pictureUrl}
             alt={profile.displayName}
@@ -24,7 +25,7 @@ export default function Report(props) {
             height={500}
           />
         )}
-        {profile.displayName && <div>Name: {profile.displayName}</div>}
+        {profile.displayName && <div>Name: {profile.displayName}</div>} */}
       </div>
     </section>
   );
