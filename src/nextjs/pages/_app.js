@@ -24,7 +24,6 @@ function MyApp({ Component, pageProps }) {
       setLiffObject(liff);
       const profile = await liff.getProfile();
       setLiffProfile(profile);
-      se
     } catch (error) {
       console.log(`liff.init() failed: ${error}`);
       if (!process.env.liffId) {
