@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
-import { Head, Image } from "next";
+import { Image } from "next";
 
 export default function Report(props) {
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState({
+    userId: "",
+    displayName: "",
+    pictureUrl: "",
+    statusMessage: "",
+  });
 
   useEffect(async () => {
     const liff = (await import("@line/liff")).default;
@@ -17,7 +22,7 @@ export default function Report(props) {
     <section>
       <h1>Profile</h1>
       <div>
-        {/* {profile.pictureUrl && profile.displayName && (
+        {profile.pictureUrl && (
           <Image
             src={profile.pictureUrl}
             alt={profile.displayName}
@@ -25,7 +30,7 @@ export default function Report(props) {
             height={500}
           />
         )}
-        {profile.displayName && <div>Name: {profile.displayName}</div>} */}
+        <div>Name: {profile.displayName}</div>
       </div>
     </section>
   );
