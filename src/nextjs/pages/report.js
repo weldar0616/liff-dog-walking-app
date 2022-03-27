@@ -62,6 +62,20 @@ export default function Report(props) {
       .catch((error) => {
         alert(JSON.stringify(error));
       });
+    // ブロードキャスト
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append(
+      "Authorization",
+      `Bearer ${process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN}`
+    );
+    fetch("https://api.line.me/v2/bot/message/broadcast", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        messages: [{ type: "text", text: createReport(profile.displayName) }],
+      }),
+    });
   });
 
   // TODO: APIのエンドポイントとして使いたい時 Next.jsではどうする?
