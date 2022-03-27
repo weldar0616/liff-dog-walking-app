@@ -24,6 +24,7 @@ export default function Report(props) {
         }
         const iid = setInterval(() => {
           if (conditionCallback()) {
+            console.log({props})
             clearInterval(iid);
             return resolve();
           }
