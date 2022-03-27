@@ -47,7 +47,8 @@ export default function Report(props) {
     <section>
       <h1>Profile</h1>
       <div>
-        {profile.pictureUrl && (
+        てすと
+        {/* {profile.pictureUrl && (
           <Image
             src={profile.pictureUrl}
             alt={profile.displayName}
@@ -55,7 +56,7 @@ export default function Report(props) {
             height={500}
           />
         )}
-        <div>Name: {profile.displayName}</div>
+        <div>Name: {profile.displayName}</div> */}
       </div>
     </section>
   );

@@ -22,11 +22,13 @@ function MyApp({ Component, pageProps }) {
         liffId: process.env.LIFF_ID,
       });
       console.log("liff.init() done");
-      alert("liff.init() done");
+      // alert("liff.init() done");
       setLiffObject(liff);
+      console.log("useState", { liff });
 
       const profile = await liff.getProfile();
-      setLiffProfile(...profile);
+      setLiffProfile(profile);
+      console.log("useState", { profile });
     } catch (error) {
       console.log(`liff.init() failed: ${error}`);
       if (!process.env.liffId) {
