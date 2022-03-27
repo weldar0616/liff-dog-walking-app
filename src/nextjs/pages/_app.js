@@ -18,12 +18,15 @@ function MyApp({ Component, pageProps }) {
     try {
       console.log("start liff.init()...");
       // alert("start liff.init()...");
-      await liff.init({ liffId: process.env.LIFF_ID });
+      await liff.init({
+        liffId: process.env.LIFF_ID,
+      });
       console.log("liff.init() done");
       alert("liff.init() done");
       setLiffObject(liff);
+
       const profile = await liff.getProfile();
-      setLiffProfile(profile);
+      setLiffProfile(...profile);
     } catch (error) {
       console.log(`liff.init() failed: ${error}`);
       if (!process.env.liffId) {
@@ -33,9 +36,6 @@ function MyApp({ Component, pageProps }) {
       }
       // setLiffError(error.toString());
     }
-    // if (!liff.isLoggedIn()) {
-    //   liff.login();
-    // }
   }, []);
 
   // Provide `liff` object and `liffError` object
