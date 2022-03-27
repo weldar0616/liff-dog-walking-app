@@ -2,7 +2,7 @@ import "../styles/globals.css";
 import { useState, useEffect } from "react";
 
 function MyApp({ Component, pageProps }) {
-  // const [liffObject, setLiffObject] = useState(null);
+  const [liffObject, setLiffObject] = useState(null);
   // const [liffError, setLiffError] = useState(null);
 
   // Execute liff.init() when the app is initialized
@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }) {
       await liff.init({ liffId: process.env.LIFF_ID });
       console.log("liff.init() done");
       // alert("liff.init() done");
-      // setLiffObject(liff);
+      setLiffObject(liff);
     } catch (error) {
       console.log(`liff.init() failed: ${error}`);
       if (!process.env.liffId) {
@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }) {
 
   // Provide `liff` object and `liffError` object
   // to page component as property
-  // pageProps.liff = liffObject;
+  pageProps.liff = liffObject;
   // pageProps.liffError = liffError;
   return <Component {...pageProps} />;
 }

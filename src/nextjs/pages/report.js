@@ -30,6 +30,7 @@ export default function Report(props) {
         }, intervalMiliSecond);
       });
     };
+    console.log("useEffect", props)
     await waitUntil(() => props.liff && props.liff.isLoggedIn());
     // await liff.ready;
     const profile = await props.liff.getProfile();
