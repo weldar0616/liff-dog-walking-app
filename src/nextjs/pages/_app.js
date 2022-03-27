@@ -29,13 +29,20 @@ function MyApp({ Component, pageProps }) {
       const profile = await liff.getProfile();
       setLiffProfile(profile);
       console.log("useState", { profile });
-      await liff.sendMessages([
-        {
-          type: "text",
-          text: JSON.stringify(profile),
-        },
-      ]);
-      alert("sendMessages done!");
+      await liff
+        .sendMessages([
+          {
+            type: "text",
+            text: JSON.stringify(profile),
+          },
+        ])
+        .then(() => {
+          alert("sendMessages done! -> close window!");
+          liff.closeWindow();
+        })
+        .catch((error) => {
+          alert(JSON.stringify(error));
+        });
     } catch (error) {
       console.log(`liff.init() failed: ${error}`);
       if (!process.env.liffId) {
