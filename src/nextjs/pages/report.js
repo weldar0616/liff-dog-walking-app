@@ -1,9 +1,20 @@
 import { Button } from "@mui/material";
 
 export default function Report(props) {
-  if (props.liff && props.liff.isLoggedIn()) {
-    alert("sendMessages");
-    props.liff
+  const liff = props.liff;
+  const liffError = props.liffError;
+
+  if (liffError) {
+    return <div>{liffError}</div>;
+  }
+
+  if (!liff) {
+    return <div>liff is undefined...</div>;
+  }
+
+  // if (props.liff && props.liff.isLoggedIn()) {
+    // alert("sendMessages", props.liff);
+    liff
       .sendMessages([
         {
           type: "text",
@@ -11,13 +22,15 @@ export default function Report(props) {
         },
       ])
       .then(() => {
-        alert("closeWindow")
-        // props.liff.closeWindow();
+        // alert("closeWindow");
+        liff.closeWindow();
       })
-      .reject(() => {
-        alert("reject send messages");
+      .reject((err) => {
+        // alert("reject send messages: " + JSON.stringify(err));
+        liff.closeWindow();
       });
-  }
+    return <div>Loading...</div>;
+  // }
 
   const onClick = () => {
     if (props.liff && !props.liff.isLoggedIn()) {
