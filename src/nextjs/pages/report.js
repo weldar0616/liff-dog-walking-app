@@ -15,14 +15,14 @@ export default function Report(props) {
   }, []);
 
   useEffect(async () => {
-    const liff = (await import("@line/liff")).default;
-    console.log({ liff }, liff.isLoggedIn());
+    // const liff = (await import("@line/liff")).default;
+    // console.log({ liff }, liff.isLoggedIn());
     const waitUntil = async (conditionCallback, intervalMiliSecond = 100) => {
       return new Promise((resolve) => {
         if (conditionCallback()) {
           return resolve();
         }
-        let iid = setInterval(() => {
+        const iid = setInterval(() => {
           if (conditionCallback()) {
             clearInterval(iid);
             return resolve();
@@ -30,9 +30,9 @@ export default function Report(props) {
         }, intervalMiliSecond);
       });
     };
-    await waitUntil(() => liff.isLoggedIn());
+    await waitUntil(() => props.liff && props.liff.isLoggedIn());
     // await liff.ready;
-    const profile = await liff.getProfile();
+    const profile = await props.liff.getProfile();
     setProfile(profile);
     console.log({ profile }); // ここは取れているが、それ以前でエラー
     // Error: Minified React error #130; visit https://reactjs.org/docs/error-decoder.html?invariant=130&args[]=undefined&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
