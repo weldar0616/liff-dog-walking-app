@@ -51,10 +51,10 @@ export default function Report(props) {
   //   });
   const profile = { displayName: "yyy" }; //await liff.getProfile();
 
-  console.log(process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN);
   const headers = {
     Content: "application/json",
     Authorization: `Bearer ${process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN}`,
+    "Access-Control-Allow-Origin": "*",
   };
   axios
     .post(
@@ -64,14 +64,10 @@ export default function Report(props) {
       },
       {
         headers,
-        withCredentials: true,
       }
     )
     .then(() => {
-      liff.closeWindow();
-    })
-    .catch((error) => {
-      window.alert(JSON.stringify(error));
+      // liff.closeWindow();
     });
   // });
 
