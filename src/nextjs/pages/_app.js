@@ -22,13 +22,17 @@ function MyApp({ Component, pageProps }) {
         liffId: process.env.LIFF_ID,
       });
       console.log("liff.init() done");
+      liff.logout();
       // alert("liff.init() done");
       setLiffObject(liff);
       console.log("useState", { liff });
 
+      // FIXME: ここで定義するとほかのコンポーネントにも影響がある
+
       const profile = await liff.getProfile();
       setLiffProfile(profile);
       console.log("useState", { profile });
+
       await liff
         .sendMessages([
           {
