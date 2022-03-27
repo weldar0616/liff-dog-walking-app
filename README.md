@@ -13,6 +13,7 @@
 - 当番一時交換機能
 ## 技術スタック
 - [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
 - [LINE Front-end Framework](https://developers.line.biz/ja/docs/liff/)
 - [Messaging API](https://developers.line.biz/ja/docs/messaging-api/)
 - [MUI](https://mui.com/)
