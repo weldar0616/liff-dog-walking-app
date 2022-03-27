@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function Report(props) {
-  const [liffObject, setLiffObject] = useState(null);
-
   useEffect(async () => {
     const liff = (await import("@line/liff")).default;
     await liff.init({
