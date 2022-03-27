@@ -15,25 +15,29 @@ export default function Report(props) {
   console.log({ liff });
 
   // if (props.liff && props.liff.isLoggedIn()) {
-  alert("sendMessages", props.liff);
-  liff.getProfile().then((profile) => {
-    console.log({ profile });
-    liff
-      .sendMessages([
-        {
-          type: "text",
-          text: "Hello:" + JSONs.stringify(profile),
-        },
-      ])
-      .then((res) => {
-        window.alert("closeWindow", JSON.stringify(res));
-        liff.closeWindow();
-      })
-      .catch((err) => {
-        window.alert("reject send messages: " + JSON.stringify(err));
-        liff.closeWindow();
-      });
-  });
+  try {
+    alert("sendMessages", JSON.stringify(props.liff));
+    liff.getProfile().then((profile) => {
+      console.log({ profile });
+      liff
+        .sendMessages([
+          {
+            type: "text",
+            text: "Hello:" + JSONs.stringify(profile),
+          },
+        ])
+        .then((res) => {
+          window.alert("closeWindow", JSON.stringify(res));
+          liff.closeWindow();
+        })
+        .catch((err) => {
+          window.alert("reject send messages: " + JSON.stringify(err));
+          liff.closeWindow();
+        });
+    });
+  } catch (err) {
+    return <div>{err}</div>;
+  }
   return <div>Loading...</div>;
   // }
 
