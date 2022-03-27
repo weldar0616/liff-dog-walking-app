@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps }) {
           "LIFF Starter: Please make sure that you provided `LIFF_ID` as an environmental variable."
         );
       }
-      setLiffError(error.toString());
+      // setLiffError(error.toString());
     }
   }, []);
 
