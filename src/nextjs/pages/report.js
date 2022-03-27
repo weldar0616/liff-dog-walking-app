@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect } from "react";
 
 const period = {
@@ -50,19 +51,19 @@ export default function Report(props) {
     });
     const profile = await liff.getProfile();
 
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append(
-      "Authorization",
-      `Bearer ${process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN}`
-    );
-    fetch("https://api.line.me/v2/bot/message/broadcast", {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify({
-        messages: [{ type: "text", text: createReport(profile.displayName) }],
-      }),
-    })
+    axios
+      .post(
+        "https://api.line.me/v2/bot/message/broadcast",
+        {
+          messages: [{ type: "text", text: createReport("aaa") }],
+        },
+        {
+          headers: {
+            Content: "application/json",
+            Authorization: `Bearer ${process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN}`,
+          },
+        }
+      )
       .then(() => {
         liff.closeWindow();
       })
