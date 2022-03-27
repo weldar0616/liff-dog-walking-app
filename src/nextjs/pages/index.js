@@ -12,10 +12,10 @@ function Content(props) {
     return <div>liff is undefined...</div>;
   }
 
-  if (!liff.isInClient()) {
-    liff.login();
-    return <div>Login...</div>;
-  }
+  // if (!liff.isLoggedIn() && !liff.isInClient()) {
+  //   liff.login();
+  //   return <div>Login...</div>;
+  // }
 
   return (
     <>
