@@ -49,7 +49,7 @@ export default function Report(props) {
   //   await liff.init({
   //     liffId: process.env.LIFF_ID_REPORT_APP,
   //   });
-  const profile = { displayName: "yyy" }; //await liff.getProfile();
+  const profile = { displayName: "z" }; //await liff.getProfile();
 
   const headers = {
     Content: "application/json",
