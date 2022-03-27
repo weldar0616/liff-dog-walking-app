@@ -28,7 +28,7 @@ console.log({liff});
         liff.closeWindow();
         return;
       })
-      .reject((err) => {
+      .catch((err) => {
         // alert("reject send messages: " + JSON.stringify(err));
         liff.closeWindow();
         return;
