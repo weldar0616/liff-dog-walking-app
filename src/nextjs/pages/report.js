@@ -49,16 +49,16 @@ export default function Report(props) {
   //   await liff.init({
   //     liffId: process.env.LIFF_ID_REPORT_APP,
   //   });
-  const profile = { displayName: "hoge" }; //await liff.getProfile();
+  const profile = { displayName: "cc" }; //await liff.getProfile();
 
-  console.log(process.env);
   const headers = {
     Content: "application/json",
     Authorization: `Bearer ${process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN}`,
+    "Access-Control-Allow-Origin": "*",
   };
   axios
     .post(
-      "https://api.line.me/v2/bot/message/broadcast",
+      "/bot/message/broadcast",
       {
         messages: [{ type: "text", text: createReport(profile.displayName) }],
       },
@@ -67,10 +67,7 @@ export default function Report(props) {
       }
     )
     .then(() => {
-      liff.closeWindow();
-    })
-    .catch((error) => {
-      window.alert(JSON.stringify(error));
+      // liff.closeWindow();
     });
   // });
 
