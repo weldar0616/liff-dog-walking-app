@@ -12,15 +12,17 @@ export default function Report(props) {
     return <div>liff is undefined...</div>;
   }
 
-console.log({liff});
+  console.log({ liff });
 
   // if (props.liff && props.liff.isLoggedIn()) {
-    alert("sendMessages", props.liff);
+  alert("sendMessages", props.liff);
+  liff.getProfile().then((profile) => {
+    console.log({ profile });
     liff
       .sendMessages([
         {
           type: "text",
-          text: "Hello",
+          text: "Hello:" + JSONs.stringify(profile),
         },
       ])
       .then((res) => {
@@ -31,7 +33,8 @@ console.log({liff});
         window.alert("reject send messages: " + JSON.stringify(err));
         liff.closeWindow();
       });
-    return <div>Loading...</div>;
+  });
+  return <div>Loading...</div>;
   // }
 
   const onClick = () => {
