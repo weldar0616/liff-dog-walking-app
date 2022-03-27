@@ -22,7 +22,6 @@ function MyApp({ Component, pageProps }) {
         liffId: process.env.LIFF_ID,
       });
       console.log("liff.init() done");
-      liff.logout();
       // alert("liff.init() done");
       setLiffObject(liff);
       console.log("useState", { liff });
