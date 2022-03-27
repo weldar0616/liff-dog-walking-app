@@ -16,7 +16,7 @@ export default function Report(props) {
     <section>
       <h1>Profile</h1>
       <div>
-        {profile.pictureUrl && (
+        {profile.pictureUrl && profile.displayName && (
           <Image
             src={profile.pictureUrl}
             alt={profile.displayName}
@@ -24,7 +24,7 @@ export default function Report(props) {
             height={500}
           />
         )}
-        <div>Name: {profile.displayName}</div>
+        {profile.displayName && <div>Name: {profile.displayName}</div>}
       </div>
     </section>
   );
