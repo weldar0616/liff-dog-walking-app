@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }) {
       console.log(`liff.init() failed: ${error}`);
       if (!process.env.liffId) {
         console.info(
-          "LIFF Starter: Please make sure that you provided `LIFF_ID` as an environmental variable."
+          "LIFF Starter: Please make sure that you provided `LIFF_ID_REPORT_APP` as an environmental variable."
         );
       }
       // setLiffError(error.toString());

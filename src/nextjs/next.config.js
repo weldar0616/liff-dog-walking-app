@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
   env: {
-    LIFF_ID: process.env.LIFF_ID,
+    LIFF_ID_REPORT_APP: process.env.LIFF_ID_REPORT_APP,
   },
 };
