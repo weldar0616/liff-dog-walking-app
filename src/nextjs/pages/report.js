@@ -44,33 +44,35 @@ export default function Report(props) {
     );
   };
 
-  useEffect(async () => {
-    const liff = (await import("@line/liff")).default;
-    await liff.init({
-      liffId: process.env.LIFF_ID_REPORT_APP,
-    });
-    const profile = await liff.getProfile();
+  // useEffect(async () => {
+  //   const liff = (await import("@line/liff")).default;
+  //   await liff.init({
+  //     liffId: process.env.LIFF_ID_REPORT_APP,
+  //   });
+  const profile = { displayName: "hoge" }; //await liff.getProfile();
 
-    axios
-      .post(
-        "https://api.line.me/v2/bot/message/broadcast",
-        {
-          messages: [{ type: "text", text: createReport("aaa") }],
-        },
-        {
-          headers: {
-            Content: "application/json",
-            Authorization: `Bearer ${process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN}`,
-          },
-        }
-      )
-      .then(() => {
-        liff.closeWindow();
-      })
-      .catch((error) => {
-        alert(JSON.stringify(error));
-      });
-  });
+  console.log(process.env);
+  const headers = {
+    Content: "application/json",
+    Authorization: `Bearer ${process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN}`,
+  };
+  axios
+    .post(
+      "https://api.line.me/v2/bot/message/broadcast",
+      {
+        messages: [{ type: "text", text: createReport(profile.displayName) }],
+      },
+      {
+        headers,
+      }
+    )
+    .then(() => {
+      liff.closeWindow();
+    })
+    .catch((error) => {
+      window.alert(JSON.stringify(error));
+    });
+  // });
 
   // TODO: APIのエンドポイントとして使いたい時 Next.jsではどうする?
   return <div>{periodLabel()}の散歩を報告中...</div>;
