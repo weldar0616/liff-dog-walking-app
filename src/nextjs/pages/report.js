@@ -6,7 +6,7 @@ export default function Report(props) {
   const liffError = props.liffError;
 
   const XXX = (props) => {
-    console.log("sendMessages", JSON.stringify(props.liff));
+   alert("sendMessages:" + JSON.stringify(props.liff));
     const liff = props.liff;
     liff.getProfile().then((profile) => {
       console.log({ profile });
@@ -18,11 +18,11 @@ export default function Report(props) {
           },
         ])
         .then((res) => {
-          console.log("closeWindow", JSON.stringify(res));
+          alert("closeWindow:"+ JSON.stringify(res));
           liff.closeWindow();
         })
         .catch((err) => {
-          console.log("reject send messages: " + JSON.stringify(err));
+          alert("reject send messages: " + JSON.stringify(err));
           liff.closeWindow();
         });
     });
