@@ -11,10 +11,10 @@ function MyApp({ Component, pageProps }) {
     const liff = (await import("@line/liff")).default;
     try {
       console.log("start liff.init()...");
-      alert("start liff.init()...");
+      // alert("start liff.init()...");
       await liff.init({ liffId: process.env.LIFF_ID });
       console.log("liff.init() done");
-      alert("liff.init() done");
+      // alert("liff.init() done");
       // setLiffObject(liff);
     } catch (error) {
       console.log(`liff.init() failed: ${error}`);
