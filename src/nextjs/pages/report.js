@@ -6,7 +6,6 @@ export default function Report(props) {
     await liff.init({
       liffId: process.env.LIFF_ID_REPORT_APP,
     });
-    setLiffObject(liff);
     const profile = await liff.getProfile();
     await liff
       .sendMessages([
