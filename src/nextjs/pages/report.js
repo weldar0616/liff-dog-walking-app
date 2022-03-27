@@ -5,15 +5,23 @@ const period = {
   night: [16, 24],
 };
 
+// TODO: 時間によっては、renderとsendMessageの時間内判定がずれる可能性アリ
 const isWithinRangeHours = (targetPriod) => {
   const h = new Date().getHours();
   return targetPriod[0] <= h && h <= targetPriod[1];
-}
+};
 const isMorning = () => {
   return isWithinRangeHours(period.morning);
 };
 const isNight = () => {
   return isWithinRangeHours(period.night);
+};
+const periodLabel = () => {
+  return isMorning() ? "🌞 朝" : isNight() ? "🌛 夜" : "";
+};
+
+const formatTime = (val) => {
+  return String(val).padStart(2, "0");
 };
 
 export default function Report(props) {
@@ -27,11 +35,11 @@ export default function Report(props) {
       );
     }
 
-    const periodLabel = isMorning() ? "🌞 朝" : isNight() ? "🌛 夜" : "";
     const date = new Date();
     return (
-      `${periodLabel} ${date.getHours()}:${date.getMinutes()}\n` +
-      `${userName}さんが散歩に行きました。`
+      `${periodLabel()} ${formatTime(date.getHours())}:${formatTime(
+        date.getMinutes()
+      )}\n` + `${userName}さんが散歩に行きました。`
     );
   };
 
@@ -57,5 +65,5 @@ export default function Report(props) {
   });
 
   // TODO: APIのエンドポイントとして使いたい時 Next.jsではどうする?
-  return <div>{periodToString()}の散歩を報告中...</div>;
+  return <div>{periodLabel()}の散歩を報告中...</div>;
 }
