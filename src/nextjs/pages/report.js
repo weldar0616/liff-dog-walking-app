@@ -49,20 +49,7 @@ export default function Report(props) {
       liffId: process.env.LIFF_ID_REPORT_APP,
     });
     const profile = await liff.getProfile();
-    await liff
-      .sendMessages([
-        {
-          type: "text",
-          text: createReport(profile.displayName),
-        },
-      ])
-      .then(() => {
-        liff.closeWindow();
-      })
-      .catch((error) => {
-        alert(JSON.stringify(error));
-      });
-    // ブロードキャスト
+
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append(
@@ -75,7 +62,13 @@ export default function Report(props) {
       body: JSON.stringify({
         messages: [{ type: "text", text: createReport(profile.displayName) }],
       }),
-    });
+    })
+      .then(() => {
+        liff.closeWindow();
+      })
+      .catch((error) => {
+        alert(JSON.stringify(error));
+      });
   });
 
   // TODO: APIのエンドポイントとして使いたい時 Next.jsではどうする?
