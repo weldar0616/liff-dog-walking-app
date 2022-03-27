@@ -1,9 +1,6 @@
-import liff from "@line/liff/dist/lib";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 export default function Settings() {
-  const [liffObject, setLiffObject] = useState(null);
-
   useEffect(async () => {
     const liff = (await import("@line/liff")).default;
     await liff.init({
