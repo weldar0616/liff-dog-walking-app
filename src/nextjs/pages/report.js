@@ -15,7 +15,7 @@ export default function Report(props) {
 console.log({liff});
 
   // if (props.liff && props.liff.isLoggedIn()) {
-    // alert("sendMessages", props.liff);
+    alert("sendMessages", props.liff);
     liff
       .sendMessages([
         {
@@ -23,15 +23,13 @@ console.log({liff});
           text: "Hello",
         },
       ])
-      .then(() => {
-        // alert("closeWindow");
+      .then((res) => {
+        window.alert("closeWindow", JSON.stringify(res));
         liff.closeWindow();
-        return;
       })
       .catch((err) => {
-        // alert("reject send messages: " + JSON.stringify(err));
+        window.alert("reject send messages: " + JSON.stringify(err));
         liff.closeWindow();
-        return;
       });
     return <div>Loading...</div>;
   // }
