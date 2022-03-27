@@ -49,9 +49,9 @@ export default function Report(props) {
   //   await liff.init({
   //     liffId: process.env.LIFF_ID_REPORT_APP,
   //   });
-  const profile = { displayName: "hoge" }; //await liff.getProfile();
+  const profile = { displayName: "xxxxx" }; //await liff.getProfile();
 
-  console.log(process.env);
+  console.log(process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN);
   const headers = {
     Content: "application/json",
     Authorization: `Bearer ${process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN}`,
