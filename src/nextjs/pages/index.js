@@ -1,34 +1,29 @@
+import { useEffect, useState } from "react";
 import Head from "next/head";
 
 function Content(props) {
-  const liff = props.liff;
-  const liffError = props.liffError;
+  const [mounted, setMounted] = useState(false);
 
-  if (liffError) {
-    return <div>{liffError}</div>;
-  }
-
-  if (!liff) {
-    return <div>liff is undefined...</div>;
-  }
-
-  // if (!liff.isLoggedIn() && !liff.isInClient()) {
-  //   liff.login();
-  //   return <div>Login...</div>;
-  // }
+  useEffect(async () => {
+    const liff = (await import("@line/liff")).default;
+    await liff.ready;
+    setMounted(true);
+  }, []);
 
   return (
-    <>
-      <h1 className="home__title">
-        Welcome to <br />
-        <a
-          className="home__title__link"
-          href="https://developers.line.biz/en/docs/liff/overview/"
-        >
-          LIFF Starter!
-        </a>
-      </h1>
-    </>
+    mounted && (
+      <>
+        <h1 className="home__title">
+          Welcome to <br />
+          <a
+            className="home__title__link"
+            href="https://developers.line.biz/en/docs/liff/overview/"
+          >
+            LIFF Starter!
+          </a>
+        </h1>
+      </>
+    )
   );
 }
 

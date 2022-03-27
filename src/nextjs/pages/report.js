@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Image } from "next";
 
 export default function Report(props) {
+  const [mounted, setMounted] = useState(false);
   const [profile, setProfile] = useState({
     userId: "",
     displayName: "",
@@ -9,29 +10,50 @@ export default function Report(props) {
     statusMessage: "",
   });
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(async () => {
     const liff = (await import("@line/liff")).default;
-    console.log({ liff });
-    await liff.ready;
+    console.log({ liff }, liff.isLoggedIn());
+    const waitUntil = async (conditionCallback, intervalMiliSecond = 100) => {
+      return new Promise((resolve) => {
+        if (conditionCallback()) {
+          return resolve();
+        }
+        let iid = setInterval(() => {
+          if (conditionCallback()) {
+            clearInterval(iid);
+            return resolve();
+          }
+        }, intervalMiliSecond);
+      });
+    };
+    await waitUntil(() => liff.isLoggedIn());
+    // await liff.ready;
     const profile = await liff.getProfile();
     setProfile(profile);
-    console.log({ profile });
+    console.log({ profile }); // ここは取れているが、それ以前でエラー
+    // Error: Minified React error #130; visit https://reactjs.org/docs/error-decoder.html?invariant=130&args[]=undefined&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings.
   }, [profile.userId]);
 
   return (
-    <section>
-      <h1>Profile</h1>
-      <div>
-        {profile.pictureUrl && (
-          <Image
-            src={profile.pictureUrl}
-            alt={profile.displayName}
-            width={500}
-            height={500}
-          />
-        )}
-        <div>Name: {profile.displayName}</div>
-      </div>
-    </section>
+    mounted && (
+      <section>
+        <h1>Profile</h1>
+        <div>
+          {profile.pictureUrl && (
+            <Image
+              src={profile.pictureUrl}
+              alt={profile.displayName}
+              width={500}
+              height={500}
+            />
+          )}
+          <div>Name: {profile.displayName}</div>
+        </div>
+      </section>
+    )
   );
 }

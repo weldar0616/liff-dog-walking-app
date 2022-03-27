@@ -20,6 +20,7 @@ const rowsList = [
 ];
 const NOTICE = "🐢の餌やり: 1日1回、朝。4月下旬〜。1回5粒、食べるなら10粒。";
 
+// FIXME: react-jsx-dev-runtime.development.js?bfcc:117 Warning: Each child in a list should have a unique "key" prop.
 function DutyRosterTable() {
   return (
     <TableContainer>
