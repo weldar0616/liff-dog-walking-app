@@ -4,7 +4,7 @@ import liff from "@line/liff";
 document.addEventListener("DOMContentLoaded", function () {
   alert(JSON.stringify(liff));
   liff
-    .init({ liffId: process.env.LIFF_ID })
+    .init({ liffId: "1657007045-A09wBBzk" })
     .then(() => {
       console.log("Success! you can do something with LIFF API here.");
       alert("Success! you can do something with LIFF API here.");
