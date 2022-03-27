@@ -12,6 +12,8 @@ export default function Report(props) {
     return <div>liff is undefined...</div>;
   }
 
+console.log({liff});
+
   // if (props.liff && props.liff.isLoggedIn()) {
     // alert("sendMessages", props.liff);
     liff
@@ -24,10 +26,12 @@ export default function Report(props) {
       .then(() => {
         // alert("closeWindow");
         liff.closeWindow();
+        return;
       })
       .reject((err) => {
         // alert("reject send messages: " + JSON.stringify(err));
         liff.closeWindow();
+        return;
       });
     return <div>Loading...</div>;
   // }
