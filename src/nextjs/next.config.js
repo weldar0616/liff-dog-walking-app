@@ -13,5 +13,8 @@ module.exports = {
     LIFF_ID_REPORT_APP: process.env.LIFF_ID_REPORT_APP,
     MESSAGING_API_CHANNEL_ACCESS_TOKEN:
       process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN,
+    TEST_USER1: process.env.TEST_USER1,
+    TEST_USER2: process.env.TEST_USER2,
+    TEST_USER3: process.env.TEST_USER3,
   },
 };
