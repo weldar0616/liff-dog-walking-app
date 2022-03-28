@@ -6,6 +6,15 @@ const period = {
   night: [16, 24],
 };
 
+const USER1 = process.env.TEST_USER1;
+const USER2 = process.env.TEST_USER2;
+const USER3 = process.env.TEST_USER3;
+// TODO: DB定義かduty-rosterと共通化
+const rowsList = [
+  [USER3, USER1, USER2, USER2, USER2, USER3, USER3],
+  [USER1, USER1, USER3, USER1, USER1, USER1, USER2],
+];
+
 // TODO: 時間によっては、renderとsendMessageの時間内判定がずれる可能性アリ
 const isWithinRangeHours = (targetPriod) => {
   const h = new Date().getHours();
@@ -21,6 +30,14 @@ const periodLabel = () => {
   return isMorning() ? "🌞 朝" : isNight() ? "🌛 夜" : "";
 };
 
+const nextPeriod = () => {
+  return isMorning() ? "🌛 夜" : "🌞 明日の朝";
+};
+const nextPerson = (day) => {
+  const nextDay = day === 6 ? 0 : day + 1;
+  return rowsList[isMorning() ? 1 : 0][nextDay];
+};
+
 const formatTime = (val) => {
   return String(val).padStart(2, "0");
 };
@@ -28,6 +45,7 @@ const formatTime = (val) => {
 export default function Report(props) {
   const createReport = (userName) => {
     if (!isMorning() && !isNight()) {
+      // TODO: ブロードキャストする必要なし
       return (
         "只今、散歩時間帯外になります。\n" +
         "散歩時間帯は、以下の通りです。\n" +
@@ -40,7 +58,8 @@ export default function Report(props) {
     return (
       `${periodLabel()} ${formatTime(date.getHours())}:${formatTime(
         date.getMinutes()
-      )}\n` + `${userName}さんが散歩に行きました。`
+      )}\n` +
+      `${userName}さんが散歩に行きました。\n\n${nextPeriod()}は${nextPerson(date.getDay())}さんです`
     );
   };
 

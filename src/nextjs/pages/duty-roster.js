@@ -10,10 +10,11 @@ import {
 
 const dayOfWeeks = [" ", "日", "月", "火", "水", "木", "金", "土"];
 
-// べた書き...
+// べた書き... TODO: DB定義
 const USER1 = "マ";
 const USER2 = "麻";
 const USER3 = "光";
+// TODO: 定数モジュールに移す
 const rowsList = [
   ["朝", USER3, USER1, USER2, USER2, USER2, USER3, USER3],
   ["夜", USER1, USER1, USER3, USER1, USER1, USER1, USER2],
