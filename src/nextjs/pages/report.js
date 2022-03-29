@@ -34,8 +34,9 @@ const nextPeriod = () => {
   return isMorning() ? "🌛 夜" : "🌞 明日の朝";
 };
 const nextPerson = (day) => {
-  const nextDay = day === 6 ? 0 : day + 1;
-  return rowsList[isMorning() ? 1 : 0][nextDay];
+  const rowIdx = isMorning() ? 1 : 0;
+  const nextDay = isMorning() ? day : day === 6 ? 0 : day + 1;
+  return rowsList[rowIdx][nextDay];
 };
 
 const formatTime = (val) => {
