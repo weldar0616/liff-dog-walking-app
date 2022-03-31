@@ -19,7 +19,7 @@
 - [LINE Front-end Framework](https://developers.line.biz/ja/docs/liff/)
 - [Messaging API](https://developers.line.biz/ja/docs/messaging-api/)
 - [MUI](https://mui.com/)
-### ホスティング
+### 　デプロイ / ホスティング
 - [Vercel](https://vercel.com/)
 ### テスティング
 - [Jest](https://jestjs.io/ja/)
