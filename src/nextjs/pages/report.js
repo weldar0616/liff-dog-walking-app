@@ -50,15 +50,15 @@ const DynamicComponent = dynamic(() => import("../components/vconsole"), {
 
 export default function Report(props) {
   const createReport = (userName) => {
-    if (!isMorning() && !isNight()) {
-      // TODO: ブロードキャストする必要なし
-      return (
-        "只今、散歩時間帯外になります。\n" +
-        "散歩時間帯は、以下の通りです。\n" +
-        "・🌞 朝: 04:00-12:00\n" +
-        "・🌛 夜: 16:00-24:00"
-      );
-    }
+    // if (!isMorning() && !isNight()) {
+    //   // TODO: ブロードキャストする必要なし
+    //   return (
+    //     "只今、散歩時間帯外になります。\n" +
+    //     "散歩時間帯は、以下の通りです。\n" +
+    //     "・🌞 朝: 04:00-12:00\n" +
+    //     "・🌛 夜: 16:00-24:00"
+    //   );
+    // }
 
     const date = new Date();
     return (
@@ -91,7 +91,7 @@ export default function Report(props) {
     };
     axios
       .post(
-        "/bot/message/broadcast",
+        "https://api.line.me/v2/bot/message/broadcast",
         {
           messages: [{ type: "text", text: createReport(profile.displayName) }],
         },
