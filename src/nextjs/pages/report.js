@@ -103,7 +103,7 @@ export default function Report(props) {
         liff.closeWindow();
       })
       .catch((err) => {
-        alert("/bot/message/broadcast_error")
+        alert("/bot/message/broadcast_error:" + profile.displayName + "__" + process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN);
         alert(err);
         console.error(err);
       });
