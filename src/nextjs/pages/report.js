@@ -91,7 +91,7 @@ export default function Report(props) {
     };
     axios
       .post(
-        "/v2/bot/message/broadcast",
+        "/bot/message/broadcast",
         {
           messages: [{ type: "text", text: createReport(profile.displayName) }],
         },
