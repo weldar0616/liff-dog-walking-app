@@ -66,10 +66,18 @@ export default function Report(props) {
 
   useEffect(async () => {
     const liff = (await import("@line/liff")).default;
-    await liff.init({
-      liffId: process.env.LIFF_ID_REPORT_APP,
+    await liff
+      .init({
+        liffId: process.env.LIFF_ID_REPORT_APP,
+      })
+      .catch((err) => {
+        alert("liff_init_error");
+        alert(err);
+      });
+    const profile = await liff.getProfile().catch((err) => {
+      alert("liff_get_profile_error");
+      alert(err);
     });
-    const profile = await liff.getProfile();
 
     const headers = {
       Content: "application/json",
@@ -88,6 +96,11 @@ export default function Report(props) {
       )
       .then(() => {
         liff.closeWindow();
+      })
+      .catch((err) => {
+        alert("/bot/message/broadcast_error")
+        alert(err);
+        console.error(err);
       });
   });
 
