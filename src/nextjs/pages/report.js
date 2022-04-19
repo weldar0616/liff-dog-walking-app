@@ -87,7 +87,9 @@ export default function Report(props) {
     const url = encodeURI(
       `${process.env.AWS_LAMDA_API_URL}?message=${message}`
     );
-    fetch(url).catch((err) => {
+    fetch(url).then(() => {
+      liff.closeWindow();
+    }).catch((err) => {
       alert(err);
     });
   });
