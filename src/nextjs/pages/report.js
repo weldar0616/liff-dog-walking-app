@@ -89,21 +89,24 @@ export default function Report(props) {
       Authorization: `Bearer ${process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN}`,
       "Access-Control-Allow-Origin": "*",
     };
-    axios
-      .post(
-        "/bot/message/broadcast",
-        {
-          messages: [{ type: "text", text: createReport(profile.displayName) }],
-        },
-        {
-          headers,
-        }
-      )
+    axios({
+      method: "post",
+      url: "https://api.line.me/v2/bot/message/broadcast",
+      headers,
+      data: {
+        messages: [{ type: "text", text: createReport(profile.displayName) }],
+      },
+    })
       .then(() => {
         liff.closeWindow();
       })
       .catch((err) => {
-        alert("/bot/message/broadcast_error:" + profile.displayName + "__" + process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN);
+        alert(
+          "/bot/message/broadcast_error:" +
+            profile.displayName +
+            "__" +
+            process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN
+        );
         alert(err);
         console.error(err);
       });
