@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic'
-import axios from "axios";
+import fetch from 'node-fetch';
 import { useEffect } from "react";
 
 const period = {
@@ -84,32 +84,13 @@ export default function Report(props) {
       alert(err);
     });
 
-    const headers = {
-      Content: "application/json",
-      Authorization: `Bearer ${process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN}`,
-      "Access-Control-Allow-Origin": "*",
-    };
-    axios({
-      method: "post",
-      url: "https://api.line.me/v2/bot/message/broadcast",
-      headers,
-      data: {
-        messages: [{ type: "text", text: createReport(profile.displayName) }],
-      },
-    })
-      .then(() => {
-        liff.closeWindow();
-      })
-      .catch((err) => {
-        alert(
-          "/bot/message/broadcast_error:" +
-            profile.displayName +
-            "__" +
-            process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN
-        );
-        alert(err);
-        console.error(err);
-      });
+    const message = createReport(profile.displayName);
+    const url = encodeURI(
+      `${process.env.AWS_LAMDA_API_URL}?message=${message}`
+    );
+    fetch(url).catch((err) => {
+      alert(err);
+    });
   });
 
   // TODO: APIのエンドポイントとして使いたい時 Next.jsではどうする?
