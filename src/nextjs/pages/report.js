@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic'
-import fetch from 'node-fetch';
 import { useEffect } from "react";
 
 const period = {
