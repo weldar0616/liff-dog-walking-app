@@ -79,7 +79,7 @@ export default function Report(props) {
         alert(err);
       });
     const profile = await liff.getProfile().catch((err) => {
-      alert("liff_get_profile_error");
+      alert("liff_get_profile_error_" + process.env.LIFF_ID_REPORT_APP);
       alert(err);
     });
 
@@ -90,7 +90,7 @@ export default function Report(props) {
     fetch(url).then(() => {
       liff.closeWindow();
     }).catch((err) => {
-      alert(err);
+      alert(err + "_" + process.env.AWS_LAMDA_API_URL);
     });
   });
 
