@@ -25,7 +25,8 @@
 - [AWS Lambda](https://aws.amazon.com/jp/lambda/)
 - [Amazon API Gateway](https://aws.amazon.com/jp/api-gateway/)
 ### 　デプロイ / ホスティング
-- [Vercel](https://vercel.com/)
+- クライアント: [Vercel](https://vercel.com/)
+- Lambda: [GitHub Actions](https://github.co.jp/features/actions)
 ### テスティング
 - [Jest](https://jestjs.io/ja/)
 - [Cypress](https://www.cypress.io/)
