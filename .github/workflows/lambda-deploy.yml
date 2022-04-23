@@ -27,6 +27,7 @@ jobs:
         run: |
           cd ./src/nextjs
           npm ci
+          cd ../../
       - name: deploy
         run: |
           zip -j deploy.zip ./lambda/*
