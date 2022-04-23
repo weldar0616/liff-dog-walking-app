@@ -1,11 +1,19 @@
-const axios = require('axios');
+const axios = require("axios");
 
 exports.handler = async (event) => {
-  const message = event.queryStringParameters && event.queryStringParameters.message ? event.queryStringParameters.message : "";
+  const message =
+    event.queryStringParameters && event.queryStringParameters.message
+      ? event.queryStringParameters.message
+      : "";
+  const response = await createResponse(message);
+  return response;
+};
+
+async function createResponse(message) {
   const response = {
-      statusCode: 200,
-      headers: {"Access-Control-Allow-Origin" : "*"},
-      body: message
+    statusCode: 200,
+    headers: { "Access-Control-Allow-Origin": "*" },
+    body: message,
   };
   const headers = {
     Content: "application/json",
@@ -26,4 +34,4 @@ exports.handler = async (event) => {
     response.body = err.message;
   }
   return response;
-};
+}
