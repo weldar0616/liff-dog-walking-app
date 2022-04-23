@@ -30,4 +30,4 @@ jobs:
       - name: deploy
         run: |
           zip -jr deploy.zip ./lambda/*
-          aws lambda update-function-code --function-name=callLineMessagingBroadcast --zip-file=fileb://deploy.zip
+          aws lambda update-function-code --function-name=call-line --zip-file=fileb://deploy.zip
