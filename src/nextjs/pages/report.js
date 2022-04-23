@@ -88,14 +88,14 @@ export default function Report(props) {
     });
     const message = createReport(profile.displayName);
     const url = encodeURI(
-      `${process.env.AWS_LAMDA_API_URL}?message=${message}`
+      `${process.env.AWS_LAMBDA_API_URL}?message=${message}`
     );
     fetch(url, {
       headers
     }).then(() => {
       liff.closeWindow();
     }).catch((err) => {
-      alert(err + "_" + process.env.AWS_LAMDA_API_URL);
+      alert(err + "_" + process.env.AWS_LAMBDA_API_URL);
     });
   });
 

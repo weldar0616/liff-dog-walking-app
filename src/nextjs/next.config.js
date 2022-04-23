@@ -16,7 +16,7 @@ module.exports = {
     TEST_USER1: process.env.TEST_USER1,
     TEST_USER2: process.env.TEST_USER2,
     TEST_USER3: process.env.TEST_USER3,
-    AWS_LAMDA_API_URL: process.env.AWS_LAMDA_API_URL,
+    AWS_LAMBDA_API_URL: process.env.AWS_LAMBDA_API_URL,
     AWS_LAMBDA_API_KEY: process.env.AWS_LAMBDA_API_KEY,
   },
 };
