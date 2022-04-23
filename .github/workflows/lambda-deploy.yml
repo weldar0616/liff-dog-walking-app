@@ -27,8 +27,7 @@ jobs:
         run: |
           cd ./src/nextjs
           npm ci
-          cd ../../
       - name: deploy
         run: |
-          zip -j deploy.zip ./lambda/*
+          zip -jr deploy.zip ./../../lambda/*
           aws lambda update-function-code --function-name=callLineMessagingBroadcast --zip-file=fileb://deploy.zip
