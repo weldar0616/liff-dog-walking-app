@@ -83,11 +83,16 @@ export default function Report(props) {
       alert(err);
     });
 
+    const headers = new Headers({
+        'x-api-key': process.env.AWS_LAMBDA_API_KEY
+    });
     const message = createReport(profile.displayName);
     const url = encodeURI(
       `${process.env.AWS_LAMDA_API_URL}?message=${message}`
     );
-    fetch(url).then(() => {
+    fetch(url, {
+      headers
+    }).then(() => {
       liff.closeWindow();
     }).catch((err) => {
       alert(err + "_" + process.env.AWS_LAMDA_API_URL);
