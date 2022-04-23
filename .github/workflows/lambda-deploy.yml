@@ -29,5 +29,5 @@ jobs:
           npm ci
       - name: deploy
         run: |
-          zip -jr deploy.zip ./../../lambda/*
+          zip -jr deploy.zip ./lambda/*
           aws lambda update-function-code --function-name=callLineMessagingBroadcast --zip-file=fileb://deploy.zip
