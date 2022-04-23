@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic'
 import { useEffect } from "react";
 
 const period = {
@@ -42,10 +41,6 @@ const nextPerson = (day) => {
 const formatTime = (val) => {
   return String(val).padStart(2, "0");
 };
-
-const DynamicComponent = dynamic(() => import("../components/vconsole"), {
-  ssr: false,
-});
 
 export default function Report(props) {
   const createReport = (userName) => {
@@ -100,5 +95,5 @@ export default function Report(props) {
   });
 
   // TODO: APIのエンドポイントとして使いたい時 Next.jsではどうする?
-  return <div>{periodLabel()}の散歩を報告中...<DynamicComponent /></div>;
+  return <div>{periodLabel()}の散歩を報告中...</div>;
 }
