@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic'
 import { useEffect } from "react";
 
 const period = {
@@ -43,10 +42,6 @@ const formatTime = (val) => {
   return String(val).padStart(2, "0");
 };
 
-const DynamicComponent = dynamic(() => import("../components/vconsole"), {
-  ssr: false,
-});
-
 export default function Report(props) {
   const createReport = (userName) => {
     // if (!isMorning() && !isNight()) {
@@ -83,17 +78,22 @@ export default function Report(props) {
       alert(err);
     });
 
+    const headers = new Headers({
+        'x-api-key': process.env.AWS_LAMBDA_API_KEY
+    });
     const message = createReport(profile.displayName);
     const url = encodeURI(
-      `${process.env.AWS_LAMDA_API_URL}?message=${message}`
+      `${process.env.AWS_LAMBDA_API_URL}?message=${message}`
     );
-    fetch(url).then(() => {
+    fetch(url, {
+      headers
+    }).then(() => {
       liff.closeWindow();
     }).catch((err) => {
-      alert(err + "_" + process.env.AWS_LAMDA_API_URL);
+      alert(err + "_" + process.env.AWS_LAMBDA_API_URL);
     });
   });
 
   // TODO: APIのエンドポイントとして使いたい時 Next.jsではどうする?
-  return <div>{periodLabel()}の散歩を報告中...<DynamicComponent /></div>;
+  return <div>{periodLabel()}の散歩を報告中...</div>;
 }
