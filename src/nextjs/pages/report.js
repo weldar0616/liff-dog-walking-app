@@ -1,3 +1,4 @@
+import ReportText from "../components/report";
 import { useReport } from "../hooks/useReport";
 import {
   formatTime,
@@ -28,8 +29,8 @@ const createReport = (userName) => {
   );
 };
 
-export default function Report(props) {
+export default function Report() {
   useReport(createReport);
 
-  return <div>{periodLabel()}の散歩を報告中...</div>;
+  return <ReportText periodLabel={periodLabel()} />;
 }
