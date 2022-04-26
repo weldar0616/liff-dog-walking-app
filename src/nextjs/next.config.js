@@ -11,6 +11,7 @@ module.exports = {
   reactStrictMode: true,
   env: {
     LIFF_ID_REPORT_APP: process.env.LIFF_ID_REPORT_APP,
+    LIFF_ID_SKIP_APP: process.env.LIFF_ID_SKIP_APP,
     MESSAGING_API_CHANNEL_ACCESS_TOKEN:
       process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN,
     TEST_USER1: process.env.TEST_USER1,

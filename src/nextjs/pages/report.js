@@ -30,7 +30,7 @@ const createReport = (userName) => {
 };
 
 export default function Report() {
-  useReport(createReport);
+  useReport(process.env.LIFF_ID_REPORT_APP, createReport);
 
   return <ReportText periodLabel={periodLabel()} />;
 }

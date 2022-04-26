@@ -20,8 +20,7 @@ const createReport = (userName) => {
 };
 
 export default function Skip() {
-  useReport(createReport);
-  console.log(createReport())
+  useReport(process.env.LIFF_ID_SKIP_APP, createReport);
 
   return <ReportText periodLabel={periodLabel()} />;
 }

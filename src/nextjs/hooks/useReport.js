@@ -1,19 +1,17 @@
 import { useEffect } from "react";
 
-export const useReport = (createReport) => {
+export const useReport = (liffId, createReport) => {
   useEffect(async () => {
     const liff = (await import("@line/liff")).default;
     await liff
       .init({
-        liffId: process.env.LIFF_ID_REPORT_APP,
+        liffId,
       })
       .catch((error) => {
         alert(`[liff#init error] ${error}`);
       });
     const profile = await liff.getProfile().catch((error) => {
-      alert(
-        `[liff#getProfile error] ${error}: LIFF ID = ${process.env.LIFF_ID_REPORT_APP}`
-      );
+      alert(`[liff#getProfile error] ${error}: LIFF ID = ${liffId}`);
     });
     if (!profile) {
       return;
