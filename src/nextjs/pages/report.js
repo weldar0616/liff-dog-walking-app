@@ -1,4 +1,4 @@
-import ReportText from "../components/report";
+import ReportText from "../components/report-text";
 import { useReport } from "../hooks/useReport";
 import {
   formatTime,
