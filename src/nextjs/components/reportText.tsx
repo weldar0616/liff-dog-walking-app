@@ -1,4 +1,11 @@
-export default function ReportText(props) {
-  const { periodLabel } = props;
-  return <div>{periodLabel}の散歩を報告中...</div>;
+import { NextPage } from "next";
+
+interface Props {
+  periodLabel: string;
 }
+
+const ReportText: NextPage<Props> = ({ periodLabel }) => (
+  <div>{periodLabel}の散歩を報告中...</div>
+);
+
+export default ReportText;

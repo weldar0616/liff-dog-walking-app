@@ -1,6 +1,7 @@
 import { useEffect } from "react";
+import { createReport } from "../types/report";
 
-export const useReport = (liffId, createReport) => {
+export const useReport = (liffId: string, createReport: createReport) => {
   useEffect(() => {
     const sendReport = async () => {
       const liff = (await import("@line/liff")).default;
