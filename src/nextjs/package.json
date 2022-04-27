@@ -1,6 +1,6 @@
 {
-  "name": "liff-starter-nextjs",
-  "version": "0.1.0",
+  "name": "liff-dog-walking-app",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev -p 9000",
