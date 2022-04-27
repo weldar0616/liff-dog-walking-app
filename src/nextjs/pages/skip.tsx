@@ -1,3 +1,4 @@
+import { NextPage } from "next";
 import ReportText from "../components/reportText";
 import { useReport } from "../hooks/useReport";
 import {
@@ -6,8 +7,9 @@ import {
   nextPerson,
   periodLabel,
 } from "../libs/report";
+import { createReport } from "../types/report";
 
-const createReport = (userName) => {
+const createReport: createReport = (userName) => {
   const date = new Date();
   return (
     `${periodLabel()} ${formatTime(date.getHours())}:${formatTime(
@@ -19,8 +21,10 @@ const createReport = (userName) => {
   );
 };
 
-export default function Skip() {
+const Skip: NextPage = () => {
   useReport(process.env.LIFF_ID_SKIP_APP, createReport);
 
   return <ReportText periodLabel={periodLabel()} />;
-}
+};
+
+export default Skip;

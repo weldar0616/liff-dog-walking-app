@@ -1,3 +1,4 @@
+import { NextPage } from "next";
 import ReportText from "../components/reportText";
 import { useReport } from "../hooks/useReport";
 import {
@@ -6,6 +7,7 @@ import {
   nextPerson,
   periodLabel,
 } from "../libs/report";
+import { createReport } from "../types/report";
 
 // TODO: 散歩時間外
 // if (!isMorning() && !isNight()) {
@@ -17,7 +19,7 @@ import {
 //   );
 // }
 
-const createReport = (userName) => {
+const createReport: createReport = (userName) => {
   const date = new Date();
   return (
     `${periodLabel()} ${formatTime(date.getHours())}:${formatTime(
@@ -29,8 +31,10 @@ const createReport = (userName) => {
   );
 };
 
-export default function Report() {
+const Report: NextPage = () => {
   useReport(process.env.LIFF_ID_REPORT_APP, createReport);
 
   return <ReportText periodLabel={periodLabel()} />;
-}
+};
+
+export default Report;
