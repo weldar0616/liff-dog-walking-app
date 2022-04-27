@@ -28,16 +28,16 @@ function DutyRosterTable() {
       <Table>
         <TableHead>
           <TableRow>
-            {dayOfWeeks.map((dayOfWeek) => (
-              <TableCell>{dayOfWeek}</TableCell>
+            {dayOfWeeks.map((dayOfWeek, i) => (
+              <TableCell key={i}>{dayOfWeek}</TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowsList.map((rows) => (
-            <TableRow>
-              {rows.map((row) => (
-                <TableCell>{row}</TableCell>
+          {rowsList.map((rows, li) => (
+            <TableRow key={li}>
+              {rows.map((row, i) => (
+                <TableCell key={`${li}-${i}`}>{row}</TableCell>
               ))}
             </TableRow>
           ))}
