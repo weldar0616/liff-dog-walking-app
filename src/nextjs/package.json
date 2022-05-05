@@ -6,7 +6,8 @@
     "dev": "next dev -p 9000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest --watch"
   },
   "dependencies": {
     "@line/liff": "2.16.0",
@@ -22,6 +23,7 @@
     "@testing-library/react": "^13.2.0",
     "eslint": "7.30.0",
     "eslint-config-next": "11.0.1",
-    "jest": "^28.0.3"
+    "jest": "^28.0.3",
+    "jest-environment-jsdom": "^28.0.2"
   }
 }
