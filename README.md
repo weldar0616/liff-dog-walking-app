@@ -11,22 +11,23 @@
 - 散歩報告機能
     - スキップ報告機能
 - 当番表確認機能
-- 設定変更機能
-- リマインド機能
-- 当番一時交換機能
+- 当番交換機能
+- ~~設定変更機能~~
+- ~~リマインド機能~~
 ## 技術スタック
 ### クライアント
-- [Next.js](https://nextjs.org/)
+- React ([Next.js](https://nextjs.org/))
 - [TypeScript](https://www.typescriptlang.org/)
 - [LINE Front-end Framework](https://developers.line.biz/ja/docs/liff/)
 - [Messaging API](https://developers.line.biz/ja/docs/messaging-api/)
+- [Calendar API](https://developers.google.com/calendar/api)
 - [MUI](https://mui.com/)
 ### API
 - [AWS Lambda](https://aws.amazon.com/jp/lambda/)
 - [Amazon API Gateway](https://aws.amazon.com/jp/api-gateway/)
-### 　デプロイ / ホスティング
-- クライアント: [Vercel](https://vercel.com/)
-- Lambda: [GitHub Actions](https://github.co.jp/features/actions)
+### デプロイ / ホスティング
+- [Vercel](https://vercel.com/)
+- [GitHub Actions](https://github.co.jp/features/actions)
 ### テスティング
 - [Jest](https://jestjs.io/ja/)
 - [Cypress](https://www.cypress.io/)
