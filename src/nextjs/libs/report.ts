@@ -1,4 +1,5 @@
 // TODO: 範囲指定 良い方法はないか
+export type DayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 type Hour =
   | 1
   | 2
@@ -72,10 +73,10 @@ export const periodLabel = (): string => {
 export const nextPeriod = (): string => {
   return isMorning() ? "🌛 夜" : "🌞 明日の朝";
 };
-export const nextPerson = (day: number): string => {
+export const nextPerson = (day: DayOfWeek, matrix = roster): string => {
   const periodIdx = isMorning() ? 1 : 0;
   const nextDay = isMorning() ? day : day === 6 ? 0 : day + 1;
-  return roster[periodIdx][nextDay];
+  return matrix[periodIdx][nextDay];
 };
 
 export const formatTime = (val: number): string => {

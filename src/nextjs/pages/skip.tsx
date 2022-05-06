@@ -6,6 +6,7 @@ import {
   nextPeriod,
   nextPerson,
   periodLabel,
+  DayOfWeek,
 } from "../libs/report";
 import { createReport } from "../types/report";
 
@@ -16,7 +17,7 @@ const createReport: createReport = (userName) => {
       date.getMinutes()
     )}\n` +
     `${userName}さんが散歩をスキップしました。\n\n${nextPeriod()}は${nextPerson(
-      date.getDay()
+      date.getDay() as DayOfWeek
     )}さんです`
   );
 };

@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import ReportText from "../components/reportText";
 import { useReport } from "../hooks/useReport";
 import {
+  DayOfWeek,
   formatTime,
   nextPeriod,
   nextPerson,
@@ -26,7 +27,7 @@ const createReport: createReport = (userName) => {
       date.getMinutes()
     )}\n` +
     `${userName}さんが散歩に行きました。\n\n${nextPeriod()}は${nextPerson(
-      date.getDay()
+      date.getDay() as DayOfWeek
     )}さんです`
   );
 };
