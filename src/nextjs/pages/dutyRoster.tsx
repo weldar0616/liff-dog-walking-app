@@ -8,10 +8,12 @@ import {
   Stack,
 } from "@mui/material";
 import { GetServerSideProps, NextPage } from "next";
+import { useEffect, useState } from "react";
 import { arraySplit } from "../libs/array";
 import { formatTime } from "../libs/report";
 
 interface Props {
+  width?: number;
   calEvents?: any;
 }
 
@@ -27,7 +29,7 @@ const dayOfWeeksMap = {
 
 const NOTICE = "🐢の餌やり: 1日1回、朝。4月下旬〜。1回5粒、食べるなら10粒。";
 
-const DutyRosterTable: NextPage<Props> = ({ calEvents }: Props) => {
+const DutyRosterTable: NextPage<Props> = ({ calEvents, width }: Props) => {
   console.log("DutyRosterTable", { calEvents });
   for (const calEvent of calEvents) {
     console.log(
@@ -52,7 +54,7 @@ const DutyRosterTable: NextPage<Props> = ({ calEvents }: Props) => {
 
   return (
     <TableContainer>
-      <Table sx={{ width: 1600 }}>
+      <Table sx={{ width }}>
         <TableHead>
           <TableRow>
             {dateList.map((dayOfWeek, i) => (
@@ -84,9 +86,32 @@ const DutyRosterTable: NextPage<Props> = ({ calEvents }: Props) => {
 const NoticeText: NextPage = () => <div>{NOTICE}</div>;
 
 const DutyRoster: NextPage<Props> = ({ calEvents }: Props) => {
+  // TODO: custom hooks
+  const [windowSize, setWindowSize] = useState({
+    width: 0,
+    height: 0,
+  });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const handleResize = () => {
+        setWindowSize({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      };
+
+      window.addEventListener("resize", handleResize);
+      handleResize();
+      return () => window.removeEventListener("resize", handleResize);
+    } else {
+      return;
+    }
+  }, []);
+
   return (
     <Stack spacing={2}>
-      <DutyRosterTable calEvents={calEvents} />
+      <DutyRosterTable calEvents={calEvents} width={windowSize.width} />
       <NoticeText />
     </Stack>
   );
