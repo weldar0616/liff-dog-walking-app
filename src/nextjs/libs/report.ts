@@ -74,7 +74,7 @@ export const nextPeriod = (): string => {
   return isMorning() ? "🌛 夜" : "🌞 明日の朝";
 };
 export const nextPerson = async (): Promise<string> => {
-  const currentDate = new Date("2022-05-15");
+  const currentDate = new Date();
   const params = {
     q: "roster",
     timeMin: currentDate.toISOString(),
