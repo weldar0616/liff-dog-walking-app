@@ -115,6 +115,7 @@ const DutyRosterTable: NextPage<Props> = ({ calEvents, width }: Props) => {
 
     console.log({ updatedCalEvents });
     const beforeDispNames = selectedCalEvents.map((v) => v.disp_name);
+    const beforeReportNames = selectedCalEvents.map((v) => v.report_name);
     const nextState = state;
     for (let i = 0; i < selectedRoster.length; i++) {
       if (selectedRoster[i]) {
@@ -124,6 +125,7 @@ const DutyRosterTable: NextPage<Props> = ({ calEvents, width }: Props) => {
           period: state.calEvents[i].period,
           disp_name: beforeDispNames.pop(),
           org_disp_name: state.calEvents[i].org_disp_name,
+          report_name: beforeReportNames.pop(),
           event: updatedCalEvent,
         };
       }

@@ -36,6 +36,7 @@ export const fetchEventsList = async (params) => {
       period: descriptionObj.period,
       disp_name: descriptionObj.disp_name,
       org_disp_name: descriptionObj.org_disp_name,
+      report_name: descriptionObj.report_name,
       event: calEvent,
     };
   };

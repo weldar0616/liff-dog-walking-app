@@ -26,7 +26,7 @@ const createReport: createReport = async (userName) => {
     `${periodLabel()} ${formatTime(date.getHours())}:${formatTime(
       date.getMinutes()
     )}\n` +
-    `${userName}さんが散歩に行きました。\n\n${nextPeriod()}は「${np}」さんです`
+    `${userName}さんが散歩に行きました。\n\n${nextPeriod()}は${np}さんです`
   );
 };
 

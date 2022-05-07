@@ -99,7 +99,7 @@ export const nextPerson = async (): Promise<string> => {
           nextDate.getMonth() + 1
         )}-${formatTime(nextDate.getDate())}`
   );
-  return nextEvent.disp_name;
+  return nextEvent.report_name;
 };
 
 export const formatTime = (val: number): string => {

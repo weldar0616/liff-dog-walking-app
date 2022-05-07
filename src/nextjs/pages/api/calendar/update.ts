@@ -11,6 +11,7 @@ export default async function handler(req, res) {
         period: calEvents[0].period,
         disp_name: calEvents[1].disp_name,
         org_disp_name: calEvents[0].org_disp_name,
+        report_name: calEvents[1].report_name,
       }),
     }),
     await cal.Events.update(CALENDAR_ID, calEvents[1].event.id, {
@@ -19,6 +20,7 @@ export default async function handler(req, res) {
         period: calEvents[1].period,
         disp_name: calEvents[0].disp_name,
         org_disp_name: calEvents[1].org_disp_name,
+        report_name: calEvents[0].report_name,
       }),
     }),
   ];
