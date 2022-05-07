@@ -8,7 +8,8 @@ import {
   Stack,
   Button,
   Box,
-  LinearProgress,
+  Backdrop,
+  CircularProgress,
 } from "@mui/material";
 import { GetServerSideProps, NextPage } from "next";
 import { useEffect, useState } from "react";
@@ -138,7 +139,12 @@ const DutyRosterTable: NextPage<Props> = ({ calEvents, width }: Props) => {
   // TODO: 交換ボタン リフトアップ
   return (
     <>
-      {loading && <LinearProgress color="secondary" />}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <TableContainer>
         <Table sx={{ width }}>
           <TableHead>
