@@ -1,1 +1,1 @@
-export type createReport = (userName: string) => string;
+export type createReport = (userName: string) => Promise<string>;

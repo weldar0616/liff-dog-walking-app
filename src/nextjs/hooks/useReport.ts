@@ -24,7 +24,7 @@ const sendReport = async (liffId: string, createReport: createReport) => {
   const headers = new Headers({
     "x-api-key": process.env.AWS_LAMBDA_API_KEY,
   });
-  const message = createReport(profile.displayName);
+  const message = await createReport(profile.displayName);
   const url = encodeURI(`${process.env.AWS_LAMBDA_API_URL}?message=${message}`);
   await fetch(url, { headers }).catch((error) =>
     alert(

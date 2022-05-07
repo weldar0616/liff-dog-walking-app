@@ -73,10 +73,33 @@ export const periodLabel = (): string => {
 export const nextPeriod = (): string => {
   return isMorning() ? "🌛 夜" : "🌞 明日の朝";
 };
-export const nextPerson = (day: DayOfWeek, matrix = roster): string => {
+export const nextPerson = async (): Promise<string> => {
+  const currentDate = new Date("2022-05-15");
+  const params = {
+    q: "roster",
+    timeMin: currentDate.toISOString(),
+    maxResults: 4,
+    singleEvents: true,
+    orderBy: "startTime",
+  };
+  const response = await fetch("/api/calendar/list", {
+    method: "POST",
+    body: JSON.stringify(params),
+  }).then((res) => res.json());
+
   const periodIdx = isMorning() ? 1 : 0;
-  const nextDay = isMorning() ? day : day === 6 ? 0 : day + 1;
-  return matrix[periodIdx][nextDay];
+  const nextDate = new Date(
+    currentDate.setDate(currentDate.getDate() + (isNight() ? 1 : 0))
+  );
+  const nextEvent = response.find(
+    (v) =>
+      v.period === periodIdx &&
+      v.start_date ===
+        `${nextDate.getFullYear()}-${formatTime(
+          nextDate.getMonth() + 1
+        )}-${formatTime(nextDate.getDate())}`
+  );
+  return nextEvent.disp_name;
 };
 
 export const formatTime = (val: number): string => {

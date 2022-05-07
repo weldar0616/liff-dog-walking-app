@@ -13,17 +13,13 @@ import {
 import { GetServerSideProps, NextPage } from "next";
 import { useEffect, useState } from "react";
 import { arraySplit } from "../libs/array";
+import { fetchEventsList } from "../libs/calendar";
 import { formatTime, isMorning, isNight } from "../libs/report";
 
 interface Props {
   width?: number;
   calEvents?: any;
 }
-
-const SERVICE_ACCOUNT_ID = process.env.GOOGLE_SERVICE_ACCOUNT_ID;
-const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID;
-const CALENDAR_URL = process.env.GOOGLE_CALENDAR_URL;
-const PRIVATE_KEY = process.env.CALENDAR_API_KEY;
 
 const dayOfWeeksMap = {
   0: "日",
@@ -68,8 +64,7 @@ const DutyRosterTable: NextPage<Props> = ({ calEvents, width }: Props) => {
   const [state, setState] = useState({ calEvents });
   const [loading, setLoading] = useState(false);
 
-  const distinct = (val, i, self) =>
-    self.findIndex((e) => e.start_date === val.start_date) === i;
+  const distinct = (v) => v.period === 0;
   const dateList = calEvents.filter(distinct).map((calEvent) => {
     const date = new Date(calEvent.start_date);
     return {
@@ -109,7 +104,6 @@ const DutyRosterTable: NextPage<Props> = ({ calEvents, width }: Props) => {
       .filter((v) => v !== null);
     console.log({ selectedCalEvents });
 
-    // TODO: API Routesに selectedCalEvents を渡す
     const updatedCalEvents = await fetch("/api/calendar/update", {
       method: "POST",
       body: JSON.stringify(selectedCalEvents),
@@ -267,51 +261,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
     };
   };
 
-  // TODO: types
-  const Calendar = require("node-google-calendar");
-  const config = {
-    calendarUrl: CALENDAR_URL,
-    serviceAcctId: SERVICE_ACCOUNT_ID,
-    calendarId: CALENDAR_ID,
-    key: PRIVATE_KEY,
-    timezone: "UTC+09:00",
-  };
-  const cal = new Calendar(config);
-
   const params = createCalendarListParams(new Date());
-  const calEvents = await cal.Events.list(CALENDAR_ID, params);
-
-  const process = (calEvent) => {
-    console.log({ calEvent });
-    const sanitizedDesc = calEvent.description.replace(
-      /<(\/?html-blob|br|\/?pre|\/?u)>/g,
-      ""
-    );
-    const parse = (jsonString: string) => {
-      try {
-        return JSON.parse(jsonString);
-      } catch {
-        return JSON.parse(jsonString.slice(1, -1));
-      }
-    };
-    const descriptionObj = parse(sanitizedDesc);
-    return {
-      start_date: calEvent.start.date,
-      period: descriptionObj.period,
-      disp_name: descriptionObj.disp_name,
-      org_disp_name: descriptionObj.org_disp_name,
-      event: calEvent,
-    };
-  };
-  const sort = (a, b) => {
-    if (a.period !== b.period) {
-      return a.period < b.period ? -1 : 1;
-    }
-    return a.start_date > b.start_date;
-  };
-  const processedCalEvents = calEvents.map(process).sort(sort);
-
-  // console.log({ processedCalEvents });
+  const processedCalEvents = await fetchEventsList(params);
+  console.log({ processedCalEvents });
 
   return {
     props: {

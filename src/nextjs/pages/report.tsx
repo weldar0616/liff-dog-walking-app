@@ -2,7 +2,6 @@ import { NextPage } from "next";
 import ReportText from "../components/reportText";
 import { useReport } from "../hooks/useReport";
 import {
-  DayOfWeek,
   formatTime,
   nextPeriod,
   nextPerson,
@@ -20,15 +19,14 @@ import { createReport } from "../types/report";
 //   );
 // }
 
-const createReport: createReport = (userName) => {
+const createReport: createReport = async (userName) => {
   const date = new Date();
+  const np = await nextPerson();
   return (
     `${periodLabel()} ${formatTime(date.getHours())}:${formatTime(
       date.getMinutes()
     )}\n` +
-    `${userName}さんが散歩に行きました。\n\n${nextPeriod()}は${nextPerson(
-      date.getDay() as DayOfWeek
-    )}さんです`
+    `${userName}さんが散歩に行きました。\n\n${nextPeriod()}は「${np}」さんです`
   );
 };
 

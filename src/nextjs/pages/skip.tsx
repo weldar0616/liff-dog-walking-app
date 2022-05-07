@@ -6,19 +6,17 @@ import {
   nextPeriod,
   nextPerson,
   periodLabel,
-  DayOfWeek,
 } from "../libs/report";
 import { createReport } from "../types/report";
 
-const createReport: createReport = (userName) => {
+const createReport: createReport = async (userName) => {
   const date = new Date();
+  const np = await nextPerson();
   return (
     `${periodLabel()} ${formatTime(date.getHours())}:${formatTime(
       date.getMinutes()
     )}\n` +
-    `${userName}さんが散歩をスキップしました。\n\n${nextPeriod()}は${nextPerson(
-      date.getDay() as DayOfWeek
-    )}さんです`
+    `${userName}さんが散歩をスキップしました。\n\n${nextPeriod()}は「${np}」さんです`
   );
 };
 
