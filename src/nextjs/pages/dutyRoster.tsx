@@ -176,6 +176,10 @@ const DutyRosterTable: NextPage<Props> = ({ calEvents, width }: Props) => {
                     const bgColor = selectedRoster[calcSelectedRosterIdx(key)]
                       ? "lightgreen"
                       : "none";
+                    const dispName =
+                      row.disp_name === row.org_disp_name
+                        ? row.disp_name
+                        : `${row.org_disp_name}\n↓\n${row.disp_name}`;
                     return (
                       <DutyRosterCell
                         key={key}
@@ -183,7 +187,7 @@ const DutyRosterTable: NextPage<Props> = ({ calEvents, width }: Props) => {
                         outline={outline}
                         fontStyle={fontStyle}
                         bgColor={bgColor}
-                        dispName={row.disp_name}
+                        dispName={dispName}
                       />
                     );
                   })}
