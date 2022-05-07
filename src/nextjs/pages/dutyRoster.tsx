@@ -283,18 +283,18 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   const process = (calEvent) => {
     console.log({ calEvent });
-
-    let descriptionObj = {};
     const sanitizedDesc = calEvent.description.replace(
       /<(\/?html-blob|br|\/?pre|\/?u)>/g,
       ""
     );
-    try {
-      descriptionObj = JSON.parse(sanitizedDesc);
-    } catch {
-      descriptionObj = JSON.parse(sanitizedDesc.slice(1, -1));
-    }
-
+    const parse = (jsonString: string) => {
+      try {
+        return JSON.parse(jsonString);
+      } catch {
+        return JSON.parse(jsonString.slice(1, -1));
+      }
+    };
+    const descriptionObj = parse(sanitizedDesc);
     return {
       start_date: calEvent.start.date,
       period: descriptionObj.period,
