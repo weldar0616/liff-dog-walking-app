@@ -60,10 +60,10 @@ const isWithinRangeHours = (hourRange: HourRange): boolean => {
   const h = new Date().getHours();
   return hourRange.start <= h && h <= hourRange.end;
 };
-const isMorning = (): boolean => {
+export const isMorning = (): boolean => {
   return isWithinRangeHours(period.morning);
 };
-const isNight = (): boolean => {
+export const isNight = (): boolean => {
   return isWithinRangeHours(period.night);
 };
 export const periodLabel = (): string => {
