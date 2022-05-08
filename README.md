@@ -31,3 +31,9 @@
 ### テスティング
 - [Jest](https://jestjs.io/ja/)
 - [Cypress](https://www.cypress.io/)
+
+---
+
+当番交換機能
+
+<img src="https://user-images.githubusercontent.com/46868883/167261034-ab9d476d-c250-4253-bb08-6dadf84411f5.gif" width="360px">
