@@ -36,4 +36,4 @@
 
 当番交換機能
 
-<img src="https://user-images.githubusercontent.com/46868883/167261034-ab9d476d-c250-4253-bb08-6dadf84411f5.gif" width="360px">
+<img src="https://user-images.githubusercontent.com/46868883/167298628-00518cb3-11dc-4aca-95bf-9be874627cd0.gif" width="360px">
