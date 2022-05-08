@@ -30,7 +30,7 @@
 - [GitHub Actions](https://github.co.jp/features/actions)
 ### テスティング
 - [Jest](https://jestjs.io/ja/)
-- [Cypress](https://www.cypress.io/)
+- [Testing Library](https://testing-library.com/)
 
 ---
 
