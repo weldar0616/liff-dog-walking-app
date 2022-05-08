@@ -1,3 +1,6 @@
+import { FetchEventParameter } from "../types/calendar";
+import { DutyRosterData } from "../types/dutyRoster";
+
 // TODO: 範囲指定 良い方法はないか
 export type DayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 type Hour =
@@ -45,16 +48,6 @@ const period: Period = {
   },
 };
 
-// TODO: DB定義
-// TODO: duty-rosterと共通化
-const USER1: string = process.env.TEST_USER1;
-const USER2: string = process.env.TEST_USER2;
-const USER3: string = process.env.TEST_USER3;
-const roster = [
-  [USER3, USER1, USER2, USER2, USER2, USER3, USER3],
-  [USER1, USER1, USER3, USER1, USER1, USER1, USER2],
-];
-
 // TODO: 時間によっては、renderとsendMessageの時間内判定がずれる可能性アリ
 const isWithinRangeHours = (hourRange: HourRange): boolean => {
   const h = new Date().getHours();
@@ -75,14 +68,14 @@ export const nextPeriod = (): string => {
 };
 export const nextPerson = async (): Promise<string> => {
   const currentDate = new Date();
-  const params = {
+  const params: FetchEventParameter = {
     q: "roster",
     timeMin: currentDate.toISOString(),
     maxResults: 4,
     singleEvents: true,
     orderBy: "startTime",
   };
-  const response = await fetch("/api/calendar/list", {
+  const response: DutyRosterData[] = await fetch("/api/calendar/list", {
     method: "POST",
     body: JSON.stringify(params),
   }).then((res) => res.json());
@@ -94,12 +87,15 @@ export const nextPerson = async (): Promise<string> => {
   const nextEvent = response.find(
     (v) =>
       v.period === periodIdx &&
-      v.start_date ===
+      v.startDate ===
         `${nextDate.getFullYear()}-${formatTime(
           nextDate.getMonth() + 1
         )}-${formatTime(nextDate.getDate())}`
   );
-  return nextEvent.report_name;
+  if (!nextEvent) {
+    throw new Error("Next person doesn't exist.");
+  }
+  return nextEvent.reportName;
 };
 
 export const formatTime = (val: number): string => {

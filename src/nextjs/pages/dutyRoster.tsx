@@ -16,31 +16,47 @@ import { useEffect, useState } from "react";
 import { arraySplit } from "../libs/array";
 import { fetchEventsList } from "../libs/calendar";
 import { formatTime, isMorning, isNight } from "../libs/report";
+import { CalendarEvent, FetchEventParameter } from "../types/calendar";
+import { DutyRosterData } from "../types/dutyRoster";
 
-interface Props {
-  width?: number;
-  calEvents?: any;
+interface DutyRosterCellProps {
+  handleClick: () => void;
+  outline: string;
+  fontStyle: {
+    color: string;
+    weight: string;
+  };
+  bgColor: string;
+  dispName: string;
+}
+interface DutyRosterTableProps {
+  calEvents: DutyRosterData[];
+  width: number;
+}
+interface DutyRosterProps {
+  calEvents: DutyRosterData[];
 }
 
-const dayOfWeeksMap = {
-  0: "日",
-  1: "月",
-  2: "火",
-  3: "水",
-  4: "木",
-  5: "金",
-  6: "土",
-};
+type State = {
+  calEvents: DutyRosterData[];
+}
+
+type DutyRosterDate = {
+  dayOfWeek: string;
+  day: string;
+}
+
+const dayOfWeeks = ["日", "月", "火", "水", "木", "金", "土"];
 
 const NOTICE = "🐢の餌やり: 1日1回、朝。4月下旬〜。1回5粒、食べるなら10粒。";
 
-const DutyRosterCell = ({
+const DutyRosterCell: NextPage<DutyRosterCellProps> = ({
   handleClick,
   outline,
   fontStyle,
   bgColor,
   dispName,
-}) => {
+}: DutyRosterCellProps) => {
   return (
     <TableCell
       align="center"
@@ -50,6 +66,8 @@ const DutyRosterCell = ({
         color: fontStyle.color,
         fontWeight: fontStyle.weight,
         backgroundColor: bgColor,
+        paddingLeft: '2px',
+        paddingRight: '2px',
       }}
     >
       {dispName}
@@ -57,36 +75,33 @@ const DutyRosterCell = ({
   );
 };
 
-const DutyRosterTable: NextPage<Props> = ({ calEvents, width }: Props) => {
+const DutyRosterTable: NextPage<DutyRosterTableProps> = ({
+  calEvents,
+  width,
+}: DutyRosterTableProps) => {
   // REVIEW: state リフトアップ?
-  const [selectedRoster, setSelectedRoster] = useState(
+  const [selectedRoster, setSelectedRoster] = useState<boolean[]>(
     Array(calEvents.length).fill(false)
   );
-  const [state, setState] = useState({ calEvents });
-  const [loading, setLoading] = useState(false);
+  const [state, setState] = useState<State>({ calEvents });
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const distinct = (v) => v.period === 0;
-  const dateList = calEvents.filter(distinct).map((calEvent) => {
-    const date = new Date(calEvent.start_date);
+  const distinct = (v: DutyRosterData) => v.period === 0;
+  const dateList: DutyRosterDate[] = calEvents.filter(distinct).map((calEvent) => {
+    const date = new Date(calEvent.startDate);
     return {
-      dayOfWeek: dayOfWeeksMap[date.getDay()],
+      dayOfWeek: dayOfWeeks[date.getDay()],
       day: `${date.getMonth() + 1}/${date.getDate()}`,
     };
   });
 
-  // console.log("DutyRosterTable", { calEvents });
-  // console.log({ dateList });
-
-  const calcSelectedRosterIdx = (key = "1-2") => {
+  const calcSelectedRosterIdx = (key = "1-2"): number => {
     const prop = key.split("-").map(Number);
     return (prop[0] * selectedRoster.length) / 2 + prop[1];
   };
 
-  const handleClick = (event) => {
-    console.log({ event });
-    const idx = calcSelectedRosterIdx(event);
-    // 現在のtrueの数が0or1なら、操作可能
-    // 現在のtrueの数が2なら、既にtrueの場合のみ操作可能
+  const handleClick = (idxString: string): void => {
+    const idx = calcSelectedRosterIdx(idxString);
     if (selectedRoster.filter((v) => v === true).length >= 2) {
       if (selectedRoster[idx] === true) {
         setSelectedRoster(selectedRoster.map((v, i) => (i === idx ? !v : v)));
@@ -99,13 +114,12 @@ const DutyRosterTable: NextPage<Props> = ({ calEvents, width }: Props) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    console.log("handleSubmit");
-    const selectedCalEvents = selectedRoster
+    const selectedCalEvents: DutyRosterData[] = selectedRoster
       .map((v, i) => (v ? state.calEvents[i] : null))
-      .filter((v) => v !== null);
+      .filter((v): v is NonNullable<DutyRosterData> => v !== null);
     console.log({ selectedCalEvents });
 
-    const updatedCalEvents = await fetch("/api/calendar/update", {
+    const updatedCalEvents: CalendarEvent[] = await fetch("/api/calendar/update", {
       method: "POST",
       body: JSON.stringify(selectedCalEvents),
     })
@@ -115,23 +129,29 @@ const DutyRosterTable: NextPage<Props> = ({ calEvents, width }: Props) => {
       });
 
     console.log({ updatedCalEvents });
-    const beforeDispNames = selectedCalEvents.map((v) => v.disp_name);
-    const beforeReportNames = selectedCalEvents.map((v) => v.report_name);
+    const beforeDispNames = selectedCalEvents.map(
+      (v: DutyRosterData) => v.dispName
+    );
+    const beforeReportNames = selectedCalEvents.map(
+      (v: DutyRosterData) => v.reportName
+    );
     const nextState = state;
     for (let i = 0; i < selectedRoster.length; i++) {
       if (selectedRoster[i]) {
         const updatedCalEvent = updatedCalEvents.shift();
+        if (!updatedCalEvent) continue;
         nextState.calEvents[i] = {
-          start_date: state.calEvents[i].start_date,
+          startDate: state.calEvents[i].startDate,
           period: state.calEvents[i].period,
-          disp_name: beforeDispNames.pop(),
-          org_disp_name: state.calEvents[i].org_disp_name,
-          report_name: beforeReportNames.pop(),
+          dispName: beforeDispNames.pop() || '',
+          originalDispName: state.calEvents[i].originalDispName,
+          reportName: beforeReportNames.pop() || '',
           event: updatedCalEvent,
         };
       }
     }
     setState(nextState);
+    console.log({nextState})
     setSelectedRoster(selectedRoster.map((v) => (v = false)));
     setLoading(false);
   };
@@ -160,46 +180,47 @@ const DutyRosterTable: NextPage<Props> = ({ calEvents, width }: Props) => {
           </TableHead>
           <TableBody>
             {/* TODO: avoid any type */}
-            {arraySplit<any>(state.calEvents, state.calEvents.length / 2).map(
-              (rows, li) => (
-                <TableRow key={li}>
-                  {rows.map((row, i) => {
-                    const key = `${li}-${i}`;
-                    const outline =
-                      new Date().getDate() ===
-                        Number(row.start_date.split("-")[2]) &&
-                      ((isMorning() && row.period === 0) ||
-                        (isNight() && row.period === 1))
-                        ? "auto"
-                        : "none";
-                    const fontStyle =
-                      row.disp_name === row.org_disp_name
-                        ? {
-                            color: "black",
-                            weight: "normal",
-                          }
-                        : { color: "blue", weight: "bold" };
-                    const bgColor = selectedRoster[calcSelectedRosterIdx(key)]
-                      ? "lightgreen"
+            {arraySplit<DutyRosterData>(
+              state.calEvents,
+              state.calEvents.length / 2
+            ).map((rows, li) => (
+              <TableRow key={li}>
+                {rows.map((row, i) => {
+                  const key = `${li}-${i}`;
+                  const outline =
+                    new Date().getDate() ===
+                      Number(row.startDate.split("-")[2]) &&
+                    ((isMorning() && row.period === 0) ||
+                      (isNight() && row.period === 1))
+                      ? "auto"
                       : "none";
-                    const dispName =
-                      row.disp_name === row.org_disp_name
-                        ? row.disp_name
-                        : `${row.org_disp_name}\n↓\n${row.disp_name}`;
-                    return (
-                      <DutyRosterCell
-                        key={key}
-                        handleClick={() => handleClick(key)}
-                        outline={outline}
-                        fontStyle={fontStyle}
-                        bgColor={bgColor}
-                        dispName={dispName}
-                      />
-                    );
-                  })}
-                </TableRow>
-              )
-            )}
+                  const fontStyle =
+                    row.dispName === row.originalDispName
+                      ? {
+                          color: "black",
+                          weight: "normal",
+                        }
+                      : { color: "blue", weight: "bold" };
+                  const bgColor = selectedRoster[calcSelectedRosterIdx(key)]
+                    ? "lightgreen"
+                    : "none";
+                  const dispName =
+                    row.dispName === row.originalDispName
+                      ? row.dispName
+                      : `${row.originalDispName}→${row.dispName}`;
+                  return (
+                    <DutyRosterCell
+                      key={key}
+                      handleClick={() => handleClick(key)}
+                      outline={outline}
+                      fontStyle={fontStyle}
+                      bgColor={bgColor}
+                      dispName={dispName}
+                    />
+                  );
+                })}
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -218,7 +239,9 @@ const DutyRosterTable: NextPage<Props> = ({ calEvents, width }: Props) => {
 
 const NoticeText: NextPage = () => <div>{NOTICE}</div>;
 
-const DutyRoster: NextPage<Props> = ({ calEvents }: Props) => {
+const DutyRoster: NextPage<DutyRosterProps> = ({
+  calEvents,
+}: DutyRosterProps) => {
   // TODO: custom hooks
   const [windowSize, setWindowSize] = useState({
     width: 0,
@@ -251,7 +274,7 @@ const DutyRoster: NextPage<Props> = ({ calEvents }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const createCalendarListParams = (currentDate: Date) => {
+  const createCalendarListParams = (currentDate: Date): FetchEventParameter => {
     const cy = currentDate.getFullYear();
     const cm = formatTime(currentDate.getMonth() + 1);
     const cd = formatTime(currentDate.getDate());

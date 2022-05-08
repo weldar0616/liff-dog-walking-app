@@ -1,26 +1,28 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { Calendar, CALENDAR_ID, config } from "../../../libs/calendar";
+import { DutyRosterData } from "../../../types/dutyRoster";
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const cal = new Calendar(config);
-  const calEvents = JSON.parse(req.body);
+  const calEvents: DutyRosterData[] = JSON.parse(req.body);
 
-  const response = [
+  const response: DutyRosterData[] = [
     await cal.Events.update(CALENDAR_ID, calEvents[0].event.id, {
       ...calEvents[0].event,
       description: JSON.stringify({
         period: calEvents[0].period,
-        disp_name: calEvents[1].disp_name,
-        org_disp_name: calEvents[0].org_disp_name,
-        report_name: calEvents[1].report_name,
+        disp_name: calEvents[1].dispName,
+        org_disp_name: calEvents[0].originalDispName,
+        report_name: calEvents[1].reportName,
       }),
     }),
     await cal.Events.update(CALENDAR_ID, calEvents[1].event.id, {
       ...calEvents[1].event,
       description: JSON.stringify({
         period: calEvents[1].period,
-        disp_name: calEvents[0].disp_name,
-        org_disp_name: calEvents[1].org_disp_name,
-        report_name: calEvents[0].report_name,
+        disp_name: calEvents[0].dispName,
+        org_disp_name: calEvents[1].originalDispName,
+        report_name: calEvents[0].reportName,
       }),
     }),
   ];
