@@ -1,7 +1,4 @@
-import {
-  CalendarEvent,
-  EventDescription,
-} from "../types/calendar";
+import { CalendarEvent, EventDescription } from "../types/calendar";
 import { DutyRosterData, FetchEventParameter } from "../types/dutyRoster";
 
 const SERVICE_ACCOUNT_ID = process.env.GOOGLE_SERVICE_ACCOUNT_ID;
