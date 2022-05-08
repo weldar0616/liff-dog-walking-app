@@ -14,37 +14,39 @@ import {
 import { GetServerSideProps, NextPage } from "next";
 import { useEffect, useState } from "react";
 import { arraySplit } from "../libs/array";
-import { fetchEventsList } from "../libs/calendar";
+import { fetchDutyRosterDataList } from "../libs/calendar";
 import { formatTime, isMorning, isNight } from "../libs/report";
-import { CalendarEvent, FetchEventParameter } from "../types/calendar";
-import { DutyRosterData } from "../types/dutyRoster";
+import { CalendarEvent } from "../types/calendar";
+import { DutyRosterData, FetchEventParameter } from "../types/dutyRoster";
+
+type FontStyle = {
+  color: string;
+  weight: string;
+};
 
 interface DutyRosterCellProps {
   handleClick: () => void;
   outline: string;
-  fontStyle: {
-    color: string;
-    weight: string;
-  };
+  fontStyle: FontStyle;
   bgColor: string;
   dispName: string;
 }
 interface DutyRosterTableProps {
-  calEvents: DutyRosterData[];
+  dutyRosterDataList: DutyRosterData[];
   width: number;
 }
 interface DutyRosterProps {
-  calEvents: DutyRosterData[];
+  dutyRosterDataList: DutyRosterData[];
 }
 
 type State = {
-  calEvents: DutyRosterData[];
-}
+  dutyRosterDataList: DutyRosterData[];
+};
 
 type DutyRosterDate = {
   dayOfWeek: string;
   day: string;
-}
+};
 
 const dayOfWeeks = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -66,8 +68,8 @@ const DutyRosterCell: NextPage<DutyRosterCellProps> = ({
         color: fontStyle.color,
         fontWeight: fontStyle.weight,
         backgroundColor: bgColor,
-        paddingLeft: '2px',
-        paddingRight: '2px',
+        paddingLeft: "2px",
+        paddingRight: "2px",
       }}
     >
       {dispName}
@@ -76,24 +78,26 @@ const DutyRosterCell: NextPage<DutyRosterCellProps> = ({
 };
 
 const DutyRosterTable: NextPage<DutyRosterTableProps> = ({
-  calEvents,
+  dutyRosterDataList,
   width,
 }: DutyRosterTableProps) => {
   // REVIEW: state リフトアップ?
   const [selectedRoster, setSelectedRoster] = useState<boolean[]>(
-    Array(calEvents.length).fill(false)
+    Array(dutyRosterDataList.length).fill(false)
   );
-  const [state, setState] = useState<State>({ calEvents });
+  const [state, setState] = useState<State>({ dutyRosterDataList });
   const [loading, setLoading] = useState<boolean>(false);
 
   const distinct = (v: DutyRosterData) => v.period === 0;
-  const dateList: DutyRosterDate[] = calEvents.filter(distinct).map((calEvent) => {
-    const date = new Date(calEvent.startDate);
-    return {
-      dayOfWeek: dayOfWeeks[date.getDay()],
-      day: `${date.getMonth() + 1}/${date.getDate()}`,
-    };
-  });
+  const dutyRosterDateList: DutyRosterDate[] = dutyRosterDataList
+    .filter(distinct)
+    .map((dutyRosterData) => {
+      const date = new Date(dutyRosterData.startDate);
+      return {
+        dayOfWeek: dayOfWeeks[date.getDay()],
+        day: `${date.getMonth() + 1}/${date.getDate()}`,
+      };
+    });
 
   const calcSelectedRosterIdx = (key = "1-2"): number => {
     const prop = key.split("-").map(Number);
@@ -114,25 +118,28 @@ const DutyRosterTable: NextPage<DutyRosterTableProps> = ({
 
   const handleSubmit = async () => {
     setLoading(true);
-    const selectedCalEvents: DutyRosterData[] = selectedRoster
-      .map((v, i) => (v ? state.calEvents[i] : null))
+    const selectedRosterDataList: DutyRosterData[] = selectedRoster
+      .map((v, i) => (v ? state.dutyRosterDataList[i] : null))
       .filter((v): v is NonNullable<DutyRosterData> => v !== null);
-    console.log({ selectedCalEvents });
+    console.log({ selectedRosterDataList });
 
-    const updatedCalEvents: CalendarEvent[] = await fetch("/api/calendar/update", {
-      method: "POST",
-      body: JSON.stringify(selectedCalEvents),
-    })
+    const updatedCalEvents: CalendarEvent[] = await fetch(
+      "/api/calendar/update",
+      {
+        method: "POST",
+        body: JSON.stringify(selectedRosterDataList),
+      }
+    )
       .then((res) => res.json())
       .catch(() => {
         // TODO: エラー表示
       });
 
     console.log({ updatedCalEvents });
-    const beforeDispNames = selectedCalEvents.map(
+    const beforeDispNames = selectedRosterDataList.map(
       (v: DutyRosterData) => v.dispName
     );
-    const beforeReportNames = selectedCalEvents.map(
+    const beforeReportNames = selectedRosterDataList.map(
       (v: DutyRosterData) => v.reportName
     );
     const nextState = state;
@@ -140,18 +147,17 @@ const DutyRosterTable: NextPage<DutyRosterTableProps> = ({
       if (selectedRoster[i]) {
         const updatedCalEvent = updatedCalEvents.shift();
         if (!updatedCalEvent) continue;
-        nextState.calEvents[i] = {
-          startDate: state.calEvents[i].startDate,
-          period: state.calEvents[i].period,
-          dispName: beforeDispNames.pop() || '',
-          originalDispName: state.calEvents[i].originalDispName,
-          reportName: beforeReportNames.pop() || '',
+        nextState.dutyRosterDataList[i] = {
+          startDate: state.dutyRosterDataList[i].startDate,
+          period: state.dutyRosterDataList[i].period,
+          dispName: beforeDispNames.pop() || "",
+          originalDispName: state.dutyRosterDataList[i].originalDispName,
+          reportName: beforeReportNames.pop() || "",
           event: updatedCalEvent,
         };
       }
     }
     setState(nextState);
-    console.log({nextState})
     setSelectedRoster(selectedRoster.map((v) => (v = false)));
     setLoading(false);
   };
@@ -169,11 +175,11 @@ const DutyRosterTable: NextPage<DutyRosterTableProps> = ({
         <Table sx={{ width }}>
           <TableHead>
             <TableRow>
-              {dateList.map((dayOfWeek, i) => (
+              {dutyRosterDateList.map((dutyRosterDate, i) => (
                 <TableCell key={i} align="center">
-                  {dayOfWeek.dayOfWeek}
+                  {dutyRosterDate.dayOfWeek}
                   <br />
-                  {dayOfWeek.day}
+                  {dutyRosterDate.day}
                 </TableCell>
               ))}
             </TableRow>
@@ -181,21 +187,21 @@ const DutyRosterTable: NextPage<DutyRosterTableProps> = ({
           <TableBody>
             {/* TODO: avoid any type */}
             {arraySplit<DutyRosterData>(
-              state.calEvents,
-              state.calEvents.length / 2
-            ).map((rows, li) => (
+              state.dutyRosterDataList,
+              state.dutyRosterDataList.length / 2
+            ).map((dutyRosterDataList, li) => (
               <TableRow key={li}>
-                {rows.map((row, i) => {
+                {dutyRosterDataList.map((dutyRosterData, i) => {
                   const key = `${li}-${i}`;
                   const outline =
                     new Date().getDate() ===
-                      Number(row.startDate.split("-")[2]) &&
-                    ((isMorning() && row.period === 0) ||
-                      (isNight() && row.period === 1))
+                      Number(dutyRosterData.startDate.split("-")[2]) &&
+                    ((isMorning() && dutyRosterData.period === 0) ||
+                      (isNight() && dutyRosterData.period === 1))
                       ? "auto"
                       : "none";
-                  const fontStyle =
-                    row.dispName === row.originalDispName
+                  const fontStyle: FontStyle =
+                    dutyRosterData.dispName === dutyRosterData.originalDispName
                       ? {
                           color: "black",
                           weight: "normal",
@@ -205,9 +211,9 @@ const DutyRosterTable: NextPage<DutyRosterTableProps> = ({
                     ? "lightgreen"
                     : "none";
                   const dispName =
-                    row.dispName === row.originalDispName
-                      ? row.dispName
-                      : `${row.originalDispName}→${row.dispName}`;
+                    dutyRosterData.dispName === dutyRosterData.originalDispName
+                      ? dutyRosterData.dispName
+                      : `${dutyRosterData.originalDispName}→${dutyRosterData.dispName}`;
                   return (
                     <DutyRosterCell
                       key={key}
@@ -240,7 +246,7 @@ const DutyRosterTable: NextPage<DutyRosterTableProps> = ({
 const NoticeText: NextPage = () => <div>{NOTICE}</div>;
 
 const DutyRoster: NextPage<DutyRosterProps> = ({
-  calEvents,
+  dutyRosterDataList,
 }: DutyRosterProps) => {
   // TODO: custom hooks
   const [windowSize, setWindowSize] = useState({
@@ -267,7 +273,10 @@ const DutyRoster: NextPage<DutyRosterProps> = ({
 
   return (
     <Stack spacing={2}>
-      <DutyRosterTable calEvents={calEvents} width={windowSize.width} />
+      <DutyRosterTable
+        dutyRosterDataList={dutyRosterDataList}
+        width={windowSize.width}
+      />
       <NoticeText />
     </Stack>
   );
@@ -297,12 +306,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 
   const params = createCalendarListParams(new Date());
-  const processedCalEvents = await fetchEventsList(params);
-  console.log({ processedCalEvents });
+  const dutyRosterDataList = await fetchDutyRosterDataList(params);
+  console.log({ dutyRosterDataList: dutyRosterDataList });
 
   return {
     props: {
-      calEvents: processedCalEvents,
+      dutyRosterDataList,
     },
   };
 };

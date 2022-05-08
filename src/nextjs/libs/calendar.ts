@@ -1,9 +1,8 @@
 import {
   CalendarEvent,
   EventDescription,
-  FetchEventParameter,
 } from "../types/calendar";
-import { DutyRosterData } from "../types/dutyRoster";
+import { DutyRosterData, FetchEventParameter } from "../types/dutyRoster";
 
 const SERVICE_ACCOUNT_ID = process.env.GOOGLE_SERVICE_ACCOUNT_ID;
 export const CALENDAR_ID = process.env.GOOGLE_CALENDAR_ID;
@@ -19,7 +18,7 @@ export const config = {
   timezone: "UTC+09:00",
 };
 
-export const fetchEventsList = async (
+export const fetchDutyRosterDataList = async (
   params: FetchEventParameter
 ): Promise<DutyRosterData[]> => {
   const cal = new Calendar(config);
@@ -27,24 +26,24 @@ export const fetchEventsList = async (
 
   const process = (calEvent: CalendarEvent): DutyRosterData => {
     console.log({ calEvent });
-    const sanitizedDesc = calEvent.description.replace(
+    const sanitizedDescription = calEvent.description.replace(
       /<(\/?html-blob|br|\/?pre|\/?u)>/g,
       ""
     );
-    const parse = (jsonString: string): EventDescription => {
+    const parseDescription = (jsonString: string): EventDescription => {
       try {
         return JSON.parse(jsonString);
       } catch {
         return JSON.parse(jsonString.slice(1, -1));
       }
     };
-    const descriptionObj = parse(sanitizedDesc);
+    const eventDescription = parseDescription(sanitizedDescription);
     return {
       startDate: calEvent.start.date,
-      period: descriptionObj.period,
-      dispName: descriptionObj.disp_name,
-      originalDispName: descriptionObj.org_disp_name,
-      reportName: descriptionObj.report_name,
+      period: eventDescription.period,
+      dispName: eventDescription.disp_name,
+      originalDispName: eventDescription.org_disp_name,
+      reportName: eventDescription.report_name,
       event: calEvent,
     };
   };

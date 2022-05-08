@@ -7,4 +7,13 @@ export type DutyRosterData = {
   originalDispName: string;
   reportName: string;
   event: CalendarEvent;
-}
+};
+
+export type FetchEventParameter = {
+  q?: string;
+  timeMin?: string;
+  timeMax?: string;
+  maxResults?: number;
+  singleEvents?: boolean;
+  orderBy?: string = "startTime";
+};

@@ -41,12 +41,3 @@ export type EventDescription = {
   org_disp_name: string;
   report_name: string;
 };
-
-export type FetchEventParameter = {
-  q?: string;
-  timeMin?: string;
-  timeMax?: string;
-  maxResults?: number;
-  singleEvents?: boolean;
-  orderBy?: string = "startTime";
-};

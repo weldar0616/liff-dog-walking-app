@@ -1,5 +1,4 @@
-import { FetchEventParameter } from "../types/calendar";
-import { DutyRosterData } from "../types/dutyRoster";
+import { DutyRosterData, FetchEventParameter } from "../types/dutyRoster";
 
 // TODO: 範囲指定 良い方法はないか
 export type DayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6;
