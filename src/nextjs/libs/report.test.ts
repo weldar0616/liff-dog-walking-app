@@ -1,6 +1,8 @@
 import {
   formatTime,
+  isMorning,
   nextPeriod,
+  nextPerson,
   periodLabel,
 } from "./report";
 
@@ -41,24 +43,12 @@ describe("report", () => {
     expect(nextPeriod()).toBe("🌞 明日の朝");
   });
 
-  // TODO
-  // it("nextPerson", () => {
-  //   jest.useFakeTimers();
-
-  //   const roster = [
-  //     ["1-1", "1-2", "1-3", "1-4", "1-5", "1-6"],
-  //     ["2-1", "2-2", "2-3", "2-4", "2-5", "2-6"],
-  //   ];
-  //   // SaturDay(6) night
-  //   let mockDate = new Date(2022, 5 - 1, 7, 20, 0, 0);
-  //   jest.setSystemTime(mockDate);
-  //   expect(nextPerson(roster)).toBe("1-1");
-
-  //   // SunDay(0) morning
-  //   mockDate = new Date(2022, 5 - 1, 8, 10, 0, 0);
-  //   jest.setSystemTime(mockDate);
-  //   expect(nextPerson(roster)).toBe("2-1");
-  // });
+  it("nextPerson", async () => {
+    // FIXME: jest.useFakeTimers + msw is not working...
+    expect(await nextPerson()).toBe(
+      isMorning() ? "today-night-user" : "tomorrow-morning-user"
+    );
+  });
 
   it("formatTime", () => {
     expect(formatTime(1)).toBe("01");
