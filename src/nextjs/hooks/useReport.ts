@@ -21,16 +21,13 @@ const sendReport = async (liffId: string, createReport: createReport) => {
   const profile = await fetchProfile(liff, liffId);
   if (!profile) return;
 
-  const headers = new Headers({
-    "x-api-key": process.env.AWS_LAMBDA_API_KEY,
-  });
-  const message = await createReport(profile.displayName);
-  const url = encodeURI(`${process.env.AWS_LAMBDA_API_URL}?message=${message}`);
-  await fetch(url, { headers }).catch((error) =>
-    alert(
-      `[fetch error] ${error}: AWS LAMBDA API URL = ${process.env.AWS_LAMBDA_API_URL}`
-    )
-  );
+  const userName = profile.displayName;
+  const requestData = { userName };
+  await fetch("/api/line/messaging", {
+    method: "POST",
+    body: JSON.stringify(requestData),
+  }).catch((error) => alert(`[fetch error] ${error}`));
+
   liff.closeWindow();
 };
 
