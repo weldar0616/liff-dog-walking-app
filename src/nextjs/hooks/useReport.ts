@@ -21,8 +21,8 @@ const sendReport = async (liffId: string, createReport: createReport) => {
   const profile = await fetchProfile(liff, liffId);
   if (!profile) return;
 
-  const userName = profile.displayName;
-  const requestData = { userName };
+  const message = await createReport(profile.displayName);
+  const requestData = { message };
   await fetch("/api/line/messaging", {
     method: "POST",
     body: JSON.stringify(requestData),

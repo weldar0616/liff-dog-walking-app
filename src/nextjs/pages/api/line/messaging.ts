@@ -15,8 +15,7 @@ export default async function handler(
     Authorization: `Bearer ${process.env.MESSAGING_API_CHANNEL_ACCESS_TOKEN}`,
     "Access-Control-Allow-Origin": "*",
   };
-  const { userName } = JSON.parse(req.body);
-  const message = `${userName}さんがトランポリンを実施しました`;
+  const { message } = JSON.parse(req.body);
 
   try {
     await axios({
