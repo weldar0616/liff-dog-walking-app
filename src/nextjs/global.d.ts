@@ -4,12 +4,9 @@ declare namespace NodeJS {
     readonly LIFF_ID_REPORT_APP: string;
     readonly LIFF_ID_SKIP_APP: string;
     readonly MESSAGING_API_CHANNEL_ACCESS_TOKEN: string;
-    readonly AWS_LAMBDA_API_URL: string;
-    readonly AWS_LAMBDA_API_KEY: string;
     readonly GOOGLE_SERVICE_ACCOUNT_ID: string;
     readonly GOOGLE_CALENDAR_ID: string;
     readonly GOOGLE_CALENDAR_URL: string;
     readonly CALENDAR_API_KEY: string;
-    readonly AWS_LAMBDA_API_KEY: string;
   }
 }

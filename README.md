@@ -30,4 +30,10 @@
 - [GitHub Actions](https://github.co.jp/features/actions)
 ### テスティング
 - [Jest](https://jestjs.io/ja/)
-- [Cypress](https://www.cypress.io/)
+- [Testing Library](https://testing-library.com/)
+
+---
+
+当番交換機能
+
+<img src="https://user-images.githubusercontent.com/46868883/167298628-00518cb3-11dc-4aca-95bf-9be874627cd0.gif" width="360px">
